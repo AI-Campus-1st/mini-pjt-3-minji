@@ -1,0 +1,1872 @@
+{
+ "tag": "baseline",
+ "run_at": "2026-11-05T09:45:49",
+ "params": {
+  "k_docs": 10,
+  "fetch_k": 50,
+  "crowd_top": 5,
+  "crowd_sim": 0.6
+ },
+ "config": "A",
+ "n_answerable": 34,
+ "n_unanswerable": 6,
+ "hit@1": 0.324,
+ "hit@3": 0.471,
+ "hit@5": 0.559,
+ "mrr@10": 0.42,
+ "hit@3_by_type": {
+  "fact": 0.667,
+  "compare": 0.286,
+  "time": 0.167,
+  "synthesis": 0.5
+ },
+ "n_by_type": {
+  "fact": 15,
+  "compare": 7,
+  "time": 6,
+  "synthesis": 6
+ },
+ "top1_score": {
+  "answerable_mean": 0.6619,
+  "answerable_min": 0.5398,
+  "unanswerable_mean": 0.5636,
+  "unanswerable_max": 0.7408
+ },
+ "crowding_top5": {
+  "questions_with_near_dup": 5,
+  "near_dup_pairs_total": 5,
+  "threshold": 0.6
+ },
+ "per_question": [
+  {
+   "id": "e01",
+   "type": "fact",
+   "q": "2025~2026년 과기정통부 'AI 반도체 혁신연구소'로 선정된 대학은 어디이며, 연도별 선정 결과는 어떻게 되는가?",
+   "rank": 4,
+   "top1_score": 0.6402,
+   "top5": [
+    {
+     "doc_id": "news_20250612_000784",
+     "doc_type": "news",
+     "title": "AI반도체 인재양성 대학에 연세대·성균관대 선정",
+     "score": 0.6402,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250612_111066",
+     "doc_type": "news",
+     "title": "과기정통부, AI반도체 선도 인재양성 거점에 성균관대·연세대 선정",
+     "score": 0.6173,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20220627_073259",
+     "doc_type": "news",
+     "title": "‘5년간 1조200억원’ 과기정통부, 인공지능 반도체 승부수",
+     "score": 0.6095,
+     "gold": false
+    },
+    {
+     "doc_id": "press_20250917_156722812",
+     "doc_type": "press",
+     "title": "인공 지능 반도체(AI반도체) 핵심인재 양성 위한 산·학 역량 결집, 연세대학교 '인공지능반도체 혁신연구소'",
+     "score": 0.6067,
+     "gold": true
+    },
+    {
+     "doc_id": "news_20250612_000010",
+     "doc_type": "news",
+     "title": "AI 반도체 석·박사급 인재 양성 주력 대학에 성대·연대 선정",
+     "score": 0.6023,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e02",
+   "type": "fact",
+   "q": "한미반도체의 주요 제품은 무엇인가?",
+   "rank": 10,
+   "top1_score": 0.6223,
+   "top5": [
+    {
+     "doc_id": "news_20250331_034850",
+     "doc_type": "news",
+     "title": "한미반도체 1분기 매출 1400억 전망…전년대비 81% ↑",
+     "score": 0.6223,
+     "gold": false
+    },
+    {
+     "doc_id": "dart_20250313_20250313001171",
+     "doc_type": "dart",
+     "title": "한미반도체 사업보고서 (2024.12) - II. 사업의 내용",
+     "score": 0.6062,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260714_011188",
+     "doc_type": "news",
+     "title": "한미반도체, 2분기 매출 2511억원…최대 분기 실적 경신",
+     "score": 0.6057,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250704_038183",
+     "doc_type": "news",
+     "title": "한미반도체, HBM4용 'TC 본더 4' 생산 시작",
+     "score": 0.5919,
+     "gold": false
+    },
+    {
+     "doc_id": "dart_20240314_20240314001257",
+     "doc_type": "dart",
+     "title": "한미반도체 사업보고서 (2023.12) - II. 사업의 내용",
+     "score": 0.5807,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e03",
+   "type": "fact",
+   "q": "오픈엣지테크놀로지의 주력 사업은 무엇인가?",
+   "rank": 1,
+   "top1_score": 0.6718,
+   "top5": [
+    {
+     "doc_id": "dart_20260319_20260319001410",
+     "doc_type": "dart",
+     "title": "오픈엣지테크놀로지 사업보고서 (2025.12) - II. 사업의 내용",
+     "score": 0.6718,
+     "gold": true
+    },
+    {
+     "doc_id": "news_20230816_040231",
+     "doc_type": "news",
+     "title": "오픈엣지테크놀로지, 자회사 '오픈엣지스퀘어' 출범...IP 수요공급 매칭·AI 반도체 IP 개발 담당",
+     "score": 0.6648,
+     "gold": false
+    },
+    {
+     "doc_id": "dart_20250320_20250320000861",
+     "doc_type": "dart",
+     "title": "오픈엣지테크놀로지 사업보고서 (2024.12) - II. 사업의 내용",
+     "score": 0.6484,
+     "gold": false
+    },
+    {
+     "doc_id": "dart_20230323_20230323001052",
+     "doc_type": "dart",
+     "title": "오픈엣지테크놀로지 사업보고서 (2022.12) - II. 사업의 내용",
+     "score": 0.6373,
+     "gold": false
+    },
+    {
+     "doc_id": "dart_20240321_20240321000788",
+     "doc_type": "dart",
+     "title": "오픈엣지테크놀로지 사업보고서 (2023.12) - II. 사업의 내용",
+     "score": 0.6306,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": [
+    [
+     "dart_20260319_20260319001410",
+     "dart_20250320_20250320000861",
+     0.8
+    ]
+   ]
+  },
+  {
+   "id": "e04",
+   "type": "fact",
+   "q": "가온칩스는 어떤 사업을 하는 회사인가?",
+   "rank": 1,
+   "top1_score": 0.6163,
+   "top5": [
+    {
+     "doc_id": "dart_20260319_20260319001147",
+     "doc_type": "dart",
+     "title": "가온칩스 사업보고서 (2025.12) - II. 사업의 내용",
+     "score": 0.6163,
+     "gold": true
+    },
+    {
+     "doc_id": "dart_20250814_20250814003602",
+     "doc_type": "dart",
+     "title": "가온칩스 [기재정정]사업보고서 (2024.12) - II. 사업의 내용",
+     "score": 0.5758,
+     "gold": false
+    },
+    {
+     "doc_id": "dart_20230321_20230321001274",
+     "doc_type": "dart",
+     "title": "가온칩스 사업보고서 (2022.12) - II. 사업의 내용",
+     "score": 0.5677,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20221019_081096",
+     "doc_type": "news",
+     "title": "가온칩스, 일본 법인 가동 고도화된 솔루션으로 시장 요구 대응",
+     "score": 0.5261,
+     "gold": false
+    },
+    {
+     "doc_id": "dart_20240318_20240318000834",
+     "doc_type": "dart",
+     "title": "가온칩스 사업보고서 (2023.12) - II. 사업의 내용",
+     "score": 0.516,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": [
+    [
+     "dart_20230321_20230321001274",
+     "dart_20240318_20240318000834",
+     0.77
+    ]
+   ]
+  },
+  {
+   "id": "e05",
+   "type": "fact",
+   "q": "이수페타시스의 주력 제품은 무엇인가?",
+   "rank": 2,
+   "top1_score": 0.613,
+   "top5": [
+    {
+     "doc_id": "dart_20250321_20250321001007",
+     "doc_type": "dart",
+     "title": "이수페타시스 [기재정정]사업보고서 (2024.12) - II. 사업의 내용",
+     "score": 0.613,
+     "gold": false
+    },
+    {
+     "doc_id": "dart_20260323_20260323000847",
+     "doc_type": "dart",
+     "title": "이수페타시스 사업보고서 (2025.12) - II. 사업의 내용",
+     "score": 0.5865,
+     "gold": true
+    },
+    {
+     "doc_id": "dart_20230323_20230323001183",
+     "doc_type": "dart",
+     "title": "이수페타시스 사업보고서 (2022.12) - II. 사업의 내용",
+     "score": 0.5667,
+     "gold": false
+    },
+    {
+     "doc_id": "dart_20240321_20240321001149",
+     "doc_type": "dart",
+     "title": "이수페타시스 사업보고서 (2023.12) - II. 사업의 내용",
+     "score": 0.5455,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20251026_053305",
+     "doc_type": "news",
+     "title": "이수페타시스, 대규모 유증 논란 딛고 신고가 랠리 [급등주 지금은]",
+     "score": 0.5416,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e06",
+   "type": "fact",
+   "q": "삼성전기의 사업부문은 어떻게 구성되어 있나?",
+   "rank": 1,
+   "top1_score": 0.6824,
+   "top5": [
+    {
+     "doc_id": "dart_20260310_20260310003071",
+     "doc_type": "dart",
+     "title": "삼성전기 사업보고서 (2025.12) - II. 사업의 내용",
+     "score": 0.6824,
+     "gold": true
+    },
+    {
+     "doc_id": "dart_20220308_20220308000667",
+     "doc_type": "dart",
+     "title": "삼성전기 사업보고서 (2021.12) - II. 사업의 내용",
+     "score": 0.6362,
+     "gold": false
+    },
+    {
+     "doc_id": "dart_20240329_20240329002895",
+     "doc_type": "dart",
+     "title": "삼성전기 [기재정정]사업보고서 (2023.12) - II. 사업의 내용",
+     "score": 0.6316,
+     "gold": false
+    },
+    {
+     "doc_id": "dart_20230307_20230307000653",
+     "doc_type": "dart",
+     "title": "삼성전기 사업보고서 (2022.12) - II. 사업의 내용",
+     "score": 0.6233,
+     "gold": false
+    },
+    {
+     "doc_id": "dart_20250311_20250311001190",
+     "doc_type": "dart",
+     "title": "삼성전기 사업보고서 (2024.12) - II. 사업의 내용",
+     "score": 0.621,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e07",
+   "type": "fact",
+   "q": "SK하이닉스의 2024년과 2025년 매출액은 각각 얼마이며, 얼마나 증가했는가?",
+   "rank": 4,
+   "top1_score": 0.6353,
+   "top5": [
+    {
+     "doc_id": "news_20240502_067982",
+     "doc_type": "news",
+     "title": "SK하이닉스 HBM 수성 자신감 …12단제품 3분기 조기양산",
+     "score": 0.6353,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250123_097855",
+     "doc_type": "news",
+     "title": "SK하이닉스, 지난해 영업익 23조4673억...올해 HBM 100% 성장할것",
+     "score": 0.6298,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20241024_076147",
+     "doc_type": "news",
+     "title": "SK하이닉스, HBM 날개 달고 '훨훨'…영업이익·매출 사상 최대(종합)",
+     "score": 0.6203,
+     "gold": false
+    },
+    {
+     "doc_id": "dart_20260317_20260317000635",
+     "doc_type": "dart",
+     "title": "SK하이닉스 사업보고서 (2025.12) - II. 사업의 내용",
+     "score": 0.6174,
+     "gold": true
+    },
+    {
+     "doc_id": "news_20240502_055299",
+     "doc_type": "news",
+     "title": "SK하이닉스 HBM3E 12단 3분기 양산…내년 생산분 대부분 완판",
+     "score": 0.6135,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e08",
+   "type": "fact",
+   "q": "국산 NPU 성능지표 'K-Perf'는 무엇이고, 어디에 처음 활용됐나?",
+   "rank": 1,
+   "top1_score": 0.7204,
+   "top5": [
+    {
+     "doc_id": "press_20261002_156784177",
+     "doc_type": "press",
+     "title": "국산 인공지능 반도체 성능지표 공공 현장 도입 검증에 첫 활용",
+     "score": 0.7204,
+     "gold": true
+    },
+    {
+     "doc_id": "news_20261002_049978",
+     "doc_type": "news",
+     "title": "국산 AI반도체 성능지표, 한전 변전소 AI 영상분석서 첫 검증",
+     "score": 0.7079,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20251210_001106",
+     "doc_type": "news",
+     "title": "국산 NPU 성능 지표 ‘K-Perf’ 첫 공개… AI 반도체 생태계 표준화 속도",
+     "score": 0.7036,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20261005_003024",
+     "doc_type": "news",
+     "title": "“국산 AI반도체, 실험실 넘어 전력현장으로”…K-Perf 첫 적용",
+     "score": 0.6979,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20251210_029390",
+     "doc_type": "news",
+     "title": "국산 NPU 성능지표 ‘K-Perf’ 발표",
+     "score": 0.689,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e09",
+   "type": "fact",
+   "q": "2026년 9월 ICT 전체 수출액 중 반도체 수출액과 그 비중은 얼마인가?",
+   "rank": 10,
+   "top1_score": 0.6979,
+   "top5": [
+    {
+     "doc_id": "press_20250714_156754689",
+     "doc_type": "press",
+     "title": "2025년 상반기 및 6월 정보통신산업(ICT) 수출입 동향",
+     "score": 0.6979,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250914_081927",
+     "doc_type": "news",
+     "title": "8월 ICT 수출, 반도체 호조 힘입어 역대 최대… 무역수지 103억달러 흑자",
+     "score": 0.6912,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260615_067292",
+     "doc_type": "news",
+     "title": "반도체 주도 5월 ICT 수출액 역대 최고",
+     "score": 0.6908,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250915_070077",
+     "doc_type": "news",
+     "title": "8월 ICT 수출 229억弗 ‘최대’… 반도체 쏠림은 우려",
+     "score": 0.6894,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260514_082980",
+     "doc_type": "news",
+     "title": "반도체가 이끌었다…ICT 수출 2개월 연속 400억달러 넘어서",
+     "score": 0.6883,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e10",
+   "type": "fact",
+   "q": "K-클라우드 기술개발 사업의 규모는 얼마인가?",
+   "rank": 1,
+   "top1_score": 0.6549,
+   "top5": [
+    {
+     "doc_id": "press_20250508_156688011",
+     "doc_type": "press",
+     "title": "4천억 원 규모의 국산 인공지능 반도체 기반 한국형-인터넷기반 자원공유(K-클라우드) 기술개발 사업 본격 추",
+     "score": 0.6549,
+     "gold": true
+    },
+    {
+     "doc_id": "press_20240626_156637806",
+     "doc_type": "press",
+     "title": "“국산 인공지능 반도체를 활용한 한국형 인터넷 기반 자원공유(K-클라우드) 기술개발사업” 예비타당성 조사 통",
+     "score": 0.6043,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20230209_001474",
+     "doc_type": "news",
+     "title": "'K-클라우드 얼라이언스' 가동···17일 착수회의",
+     "score": 0.5866,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20241212_000921",
+     "doc_type": "news",
+     "title": "KT클라우드, K-클라우드 프로젝트서 AI 인프라 구축… 초당 1000조번 연산",
+     "score": 0.586,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20241212_000920",
+     "doc_type": "news",
+     "title": "KT클라우드 K-클라우드 프로젝트서 20PF 연산 인프라 구축",
+     "score": 0.5855,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": [
+    [
+     "news_20241212_000921",
+     "news_20241212_000920",
+     0.79
+    ]
+   ]
+  },
+  {
+   "id": "e11",
+   "type": "fact",
+   "q": "범부처 PIM 인공지능반도체 사업단은 언제 출범했나?",
+   "rank": null,
+   "top1_score": 0.6388,
+   "top5": [
+    {
+     "doc_id": "news_20220929_110705",
+     "doc_type": "news",
+     "title": "7년간 4천억원 투자…범부처 PIM인공지능반도체 사업단 출범",
+     "score": 0.6388,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20220929_009947",
+     "doc_type": "news",
+     "title": "4000억원 들인 AI 반도체 사업 본격화…'PIM 반도체 사업단' 출범",
+     "score": 0.6102,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20220929_110554",
+     "doc_type": "news",
+     "title": "과기정통부·산업부, PIM인공지능반도체 사업단 출범",
+     "score": 0.5967,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20220627_112225",
+     "doc_type": "news",
+     "title": "삼성전자·SK하이닉스, PIM 반도체 공정 학계에 첫 공개키로",
+     "score": 0.567,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20220119_050417",
+     "doc_type": "news",
+     "title": "PIM 개발에 4000억 추가 투입…'AI 주도권 '위해 민관 협력 추진(종합)",
+     "score": 0.5623,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e12",
+   "type": "fact",
+   "q": "반도체특별법은 언제 국회 본회의를 통과했나?",
+   "rank": 2,
+   "top1_score": 0.6187,
+   "top5": [
+    {
+     "doc_id": "news_20260130_082853",
+     "doc_type": "news",
+     "title": "반도체 특별법 국회 통과…공급망·비수도권 클러스터 지원 본격화",
+     "score": 0.6187,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260129_055670",
+     "doc_type": "news",
+     "title": "'주 52시간' 뺀 반도체특별법, 국회 본회의 통과",
+     "score": 0.6085,
+     "gold": true
+    },
+    {
+     "doc_id": "press_20260129_156742072",
+     "doc_type": "press",
+     "title": "(참고자료)「반도체산업 경쟁력 강화 및 지원에 관한 특별법」 국회 통과",
+     "score": 0.6021,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260129_088200",
+     "doc_type": "news",
+     "title": "경제계, 반도체특별법 통과에 환영…AI시대, 질적성장 토대",
+     "score": 0.6001,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260129_091005",
+     "doc_type": "news",
+     "title": "반도체특별법 국회 본회의 통과…산업부·경제계 일제히 환영",
+     "score": 0.5973,
+     "gold": true
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e13",
+   "type": "fact",
+   "q": "미국의 '반도체와 과학법'은 어떤 분야에 재정을 지원하며, 반도체 산업 지원 규모는 얼마인가?",
+   "rank": 1,
+   "top1_score": 0.6651,
+   "top5": [
+    {
+     "doc_id": "report_20220804_issue_779",
+     "doc_type": "report",
+     "title": "미국 '반도체와 과학법'의 정책적 시사점",
+     "score": 0.6651,
+     "gold": true
+    },
+    {
+     "doc_id": "news_20220804_082134",
+     "doc_type": "news",
+     "title": "美 반도체법 통과...미·중 신냉전 대비 전략 마련해야 산업硏",
+     "score": 0.637,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240326_119042",
+     "doc_type": "news",
+     "title": "미국의 반도체 집착…각자도생 속 韓반도체는?",
+     "score": 0.6264,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20220804_115045",
+     "doc_type": "news",
+     "title": "미-중 글로벌 신냉전, 韓 반도체 등 첨단산업 전략 고도화 시급",
+     "score": 0.6247,
+     "gold": false
+    },
+    {
+     "doc_id": "report_20231205_podata_357",
+     "doc_type": "report",
+     "title": "시스템반도체 산업의 글로벌 지형 및 정책 방안 연구",
+     "score": 0.6212,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e14",
+   "type": "fact",
+   "q": "한미반도체의 TC 본더는 HBM 제조 공정에서 어떤 역할을 하며, 반도체 제조용 장비가 회사 매출에서 차지하는 비중은 얼마인가?",
+   "rank": 1,
+   "top1_score": 0.735,
+   "top5": [
+    {
+     "doc_id": "news_20260114_032543",
+     "doc_type": "news",
+     "title": "한미반도체, SK하이닉스에 97억원 규모 TC본더 공급",
+     "score": 0.735,
+     "gold": true
+    },
+    {
+     "doc_id": "news_20250704_038183",
+     "doc_type": "news",
+     "title": "한미반도체, HBM4용 'TC 본더 4' 생산 시작",
+     "score": 0.7292,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250514_038103",
+     "doc_type": "news",
+     "title": "한미반도체, 차세대 HBM 시장 선점 나선다",
+     "score": 0.7289,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240723_034548",
+     "doc_type": "news",
+     "title": "한미반도체, HBM 'TC 본더' 증설 준비...1만평 대지 확보",
+     "score": 0.7283,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240726_109874",
+     "doc_type": "news",
+     "title": "한미반도체, 2분기 매출 1234억… “하반기부터 납품 본격화”",
+     "score": 0.7268,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e15",
+   "type": "fact",
+   "q": "2024년 4월 기준 퓨리오사AI의 직원 수는 약 몇 명인가?",
+   "rank": 3,
+   "top1_score": 0.7004,
+   "top5": [
+    {
+     "doc_id": "news_20260810_045383",
+     "doc_type": "news",
+     "title": "[IT카페]AI 인재 몰려드는 퓨리오사, IPO 호재도 한 몫",
+     "score": 0.7004,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260928_016245",
+     "doc_type": "news",
+     "title": "[단독] 퓨리오사AI만 특별대우… 국민성장펀드, 민간매칭 지연에 4000억 4개월째 미집행",
+     "score": 0.6568,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240417_007789",
+     "doc_type": "news",
+     "title": "밤에 출근할게요 그러시죠…AI반도체 스타트업, 인재총력전 [팩플]",
+     "score": 0.6404,
+     "gold": true
+    },
+    {
+     "doc_id": "news_20250325_052677",
+     "doc_type": "news",
+     "title": "퓨리오사AI, 메타 인수 제안 거절…투자 유치해 독자적 AI 칩 개발",
+     "score": 0.6343,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260620_017667",
+     "doc_type": "news",
+     "title": "정부 'AI 국가대표' 키운다...국민성장펀드, 퓨리오사AI에 8000억 베팅",
+     "score": 0.6313,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e16",
+   "type": "compare",
+   "q": "삼성전자와 SK하이닉스의 2025년 사업보고서에서 HBM 관련 사업 현황과 주요 제품을 어떻게 설명하고 있으며, 어떤 차이가 있는가?",
+   "rank": null,
+   "top1_score": 0.7189,
+   "top5": [
+    {
+     "doc_id": "news_20260130_013888",
+     "doc_type": "news",
+     "title": "AI 반도체가 가른 수익성… SK하이닉스(49%)영업이익률 삼성전자(13%) 압도",
+     "score": 0.7189,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240503_093171",
+     "doc_type": "news",
+     "title": "SK vs 삼성, HBM 주도권 두고 연일 '신경전'",
+     "score": 0.7127,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20241128_077518",
+     "doc_type": "news",
+     "title": "[흑과백] SK-삼성 'HBM 전쟁'...엔비디아 패권 'HBM4'에 달렸다(창간 20년 기획)",
+     "score": 0.7008,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250818_101366",
+     "doc_type": "news",
+     "title": "“삼성전자, 2026년 HBM 성장률 105%”…영업익 전망 반등, 주가 상승으로 이어질까 [종목Pick]",
+     "score": 0.6968,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20251013_053282",
+     "doc_type": "news",
+     "title": "삼성전자·SK하이닉스, 반도체 호황에 '어닝 서프라이즈' 보인다",
+     "score": 0.6944,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e17",
+   "type": "compare",
+   "q": "대만과 한국의 반도체 산업 구조는 어떻게 다른가?",
+   "rank": 1,
+   "top1_score": 0.5994,
+   "top5": [
+    {
+     "doc_id": "news_20241129_098448",
+     "doc_type": "news",
+     "title": "한국과 대만의 반도체 산업 차이점은?.. 한국, 정책역량 집중 필요",
+     "score": 0.5994,
+     "gold": true
+    },
+    {
+     "doc_id": "news_20241129_098449",
+     "doc_type": "news",
+     "title": "대만은 정부가 반도체 강력 지원…韓 정책 역량 키워야",
+     "score": 0.5966,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20241014_106912",
+     "doc_type": "news",
+     "title": "역대 산업장관 韓 반도체, 도시바·인텔처럼 몰락 가능성",
+     "score": 0.5909,
+     "gold": false
+    },
+    {
+     "doc_id": "report_20240226_paper_801",
+     "doc_type": "report",
+     "title": "대만 반도체산업 분석 및 정책적 시사점",
+     "score": 0.5828,
+     "gold": true
+    },
+    {
+     "doc_id": "news_20250529_050977",
+     "doc_type": "news",
+     "title": "K 반도체, 미중 갈등 속 외줄 타기… 전방위 '규제 개선·지원' 절실",
+     "score": 0.5795,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e18",
+   "type": "compare",
+   "q": "2026년 9월 기준 리벨리온과 퓨리오사AI의 주요 NPU 제품은 무엇이며, 상용화 단계는 어떻게 다른가?",
+   "rank": null,
+   "top1_score": 0.6797,
+   "top5": [
+    {
+     "doc_id": "news_20251102_074034",
+     "doc_type": "news",
+     "title": "GPU 26만 장 시대…NPU와 병행 육성 필수",
+     "score": 0.6797,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260901_084360",
+     "doc_type": "news",
+     "title": "'K-NPU' 리벨·퓨리·딥엑스, 정부계약 시험대…독자 생존력 입증 변수",
+     "score": 0.6793,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260629_003874",
+     "doc_type": "news",
+     "title": "국산 NPU, 구호에서 실물로…AI반도체 판이 바뀐다",
+     "score": 0.6772,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20230901_115076",
+     "doc_type": "news",
+     "title": "소프트웨어·모델 효율이 NPU 성능 좌우··· 퓨리오사AI가 펼칠 전략은?",
+     "score": 0.6708,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20251026_002810",
+     "doc_type": "news",
+     "title": "APEC 무대에 서는 'K AI 반도체'…글로벌 시선 집중",
+     "score": 0.6652,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e19",
+   "type": "compare",
+   "q": "삼성전기와 이수페타시스의 AI 관련 기판 사업은 어떻게 다른가?",
+   "rank": null,
+   "top1_score": 0.6588,
+   "top5": [
+    {
+     "doc_id": "news_20240408_007322",
+     "doc_type": "news",
+     "title": "삼성전기, AI PC용 반도체 기판 양산…글로벌 기업에 단독 공급",
+     "score": 0.6588,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240704_027434",
+     "doc_type": "news",
+     "title": "삼성전기, AI PC용 반도체 기판 납품 시작… “AI 생태계 진입 본격화”",
+     "score": 0.6441,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260928_049992",
+     "doc_type": "news",
+     "title": "삼성전기, 세종사업장에 4조2700억 투자…AI 반도체 기판 승부수",
+     "score": 0.6336,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240409_003418",
+     "doc_type": "news",
+     "title": "[특징주]태성, 삼성전기 AI PC용 반도체 기판 글로벌 기업에 단독 공급...고객사 부각↑",
+     "score": 0.6242,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260412_004151",
+     "doc_type": "news",
+     "title": "삼성전기, 베트남에 'MLCC 임베디드 기판' 라인 신설…AI 시장 공세",
+     "score": 0.6236,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e20",
+   "type": "compare",
+   "q": "KIET의 2026년 분석에 따르면 한국과 중국의 반도체 산업 경쟁력은 어떤 측면에서 차이가 있는가?",
+   "rank": 4,
+   "top1_score": 0.6362,
+   "top5": [
+    {
+     "doc_id": "news_20260102_119621",
+     "doc_type": "news",
+     "title": "[단독] 중 첨단산업 굴기…반도체 경쟁력마저 한국 따라잡았다",
+     "score": 0.6362,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260224_092895",
+     "doc_type": "news",
+     "title": "中, 반도체 빼고 첨단산업 다 앞섰다…국책 연구기관의 경고",
+     "score": 0.6274,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20251223_098734",
+     "doc_type": "news",
+     "title": "반도체만 한국, 나머지는 중국…무협 초격차가 관건“",
+     "score": 0.6045,
+     "gold": false
+    },
+    {
+     "doc_id": "report_20260224_issue_844",
+     "doc_type": "report",
+     "title": "첨단산업의 한·중 경쟁력 분석과 정책 방향",
+     "score": 0.602,
+     "gold": true
+    },
+    {
+     "doc_id": "report_20251231_report_1166",
+     "doc_type": "report",
+     "title": "경제안보 시대 한일 산업협력 방안 연구: 반도체와 이차전지를 중심으로",
+     "score": 0.5924,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e21",
+   "type": "compare",
+   "q": "일본과 한국 정부의 반도체 산업 지원 정책은 지원 방식과 정책 목표에서 어떤 차이가 있는가?",
+   "rank": null,
+   "top1_score": 0.5398,
+   "top5": [
+    {
+     "doc_id": "news_20241115_071179",
+     "doc_type": "news",
+     "title": "주52시간 예외·직접 보조금...韓·日, 반도체법 재추진",
+     "score": 0.5398,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250714_117667",
+     "doc_type": "news",
+     "title": "日 반도체의 부활…韓도 보조금 등 종합지원 필요",
+     "score": 0.5278,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250714_073880",
+     "doc_type": "news",
+     "title": "반도체 산업 부활에 100조원 쏟아붓는 日…한국은?",
+     "score": 0.5242,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20251231_050899",
+     "doc_type": "news",
+     "title": "일본 반도체의 '부활 공식'…기업 뭉치고, 정부가 판 깔아준다",
+     "score": 0.5232,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20241129_098448",
+     "doc_type": "news",
+     "title": "한국과 대만의 반도체 산업 차이점은?.. 한국, 정책역량 집중 필요",
+     "score": 0.5185,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e22",
+   "type": "compare",
+   "q": "2025년 9월과 2026년 9월의 ICT 수출액 및 반도체 수출액은 각각 얼마이며, 전년 동월 대비 얼마나 변화했는가?",
+   "rank": 1,
+   "top1_score": 0.7361,
+   "top5": [
+    {
+     "doc_id": "press_20251014_156713865",
+     "doc_type": "press",
+     "title": "2025년 9월 정보통신산업(ICT) 수출입",
+     "score": 0.7361,
+     "gold": true
+    },
+    {
+     "doc_id": "press_20250714_156754689",
+     "doc_type": "press",
+     "title": "2025년 상반기 및 6월 정보통신산업(ICT) 수출입 동향",
+     "score": 0.72,
+     "gold": false
+    },
+    {
+     "doc_id": "press_20241014_156654613",
+     "doc_type": "press",
+     "title": "2024년 9월 정보통신산업(ICT) 수출입 동향",
+     "score": 0.7178,
+     "gold": false
+    },
+    {
+     "doc_id": "press_20260114_156739628",
+     "doc_type": "press",
+     "title": "2025년 연간 및 12월 정보통신산업(ICT) 수출입 동향",
+     "score": 0.7134,
+     "gold": false
+    },
+    {
+     "doc_id": "press_20251113_156728062",
+     "doc_type": "press",
+     "title": "2025년 10월 정보통신산업(ICT) 수출입 동향",
+     "score": 0.7076,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e23",
+   "type": "time",
+   "q": "SK하이닉스의 2023~2024년 실적은 어떻게 변화했으며, HBM 등 주요 제품이 실적 성장에 어떤 영향을 미쳤는가?",
+   "rank": null,
+   "top1_score": 0.7035,
+   "top5": [
+    {
+     "doc_id": "news_20260423_074251",
+     "doc_type": "news",
+     "title": "SK하이닉스, 영업이익률 72%…HBM 3년치 주문 폭발",
+     "score": 0.7035,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250123_085422",
+     "doc_type": "news",
+     "title": "SK하이닉스 HBM 장기 성장…내년 공급 이미 논의 중",
+     "score": 0.6991,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250123_097856",
+     "doc_type": "news",
+     "title": "SK하이닉스, 'HBM' 날개 달고 사상 최대 실적…시장 우위 입증(종합)",
+     "score": 0.6969,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240502_067982",
+     "doc_type": "news",
+     "title": "SK하이닉스 HBM 수성 자신감 …12단제품 3분기 조기양산",
+     "score": 0.6968,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250724_038218",
+     "doc_type": "news",
+     "title": "SK하이닉스 HBM, 높은 성장성 지속…엔비디아와 긴밀 협의",
+     "score": 0.6967,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e24",
+   "type": "time",
+   "q": "반도체특별법의 주 52시간 예외 조항 논의는 어떻게 전개됐나?",
+   "rank": null,
+   "top1_score": 0.724,
+   "top5": [
+    {
+     "doc_id": "news_20251126_117185",
+     "doc_type": "news",
+     "title": "반도체법 '주52시간 예외' 제외 여야 잠정 합의…좌초된 산업계 숙원",
+     "score": 0.724,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20251126_072816",
+     "doc_type": "news",
+     "title": "반도체법 '주52시간 예외' 제외 여야 잠정 합의… 연말 처리 전망",
+     "score": 0.7192,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260129_041683",
+     "doc_type": "news",
+     "title": "반도체특별법 국회 통과…R&D ‘주 52시간’ 예외는 빠져",
+     "score": 0.7119,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260720_093980",
+     "doc_type": "news",
+     "title": "[사설]반도체 성공위해..52시간제 규제 깨야",
+     "score": 0.6969,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20251014_100560",
+     "doc_type": "news",
+     "title": "제발 일할 수 있도록…52시간에 발목잡힌 반도체 특별법",
+     "score": 0.6959,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e25",
+   "type": "time",
+   "q": "정부의 국산 AI 반도체(NPU) 지원 정책은 2022년 이후 어떻게 전개됐나?",
+   "rank": null,
+   "top1_score": 0.6112,
+   "top5": [
+    {
+     "doc_id": "news_20260204_048706",
+     "doc_type": "news",
+     "title": "정부, 국산 AI반도체 공공부문 수요 창출 나선다",
+     "score": 0.6112,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250610_009020",
+     "doc_type": "news",
+     "title": "정부 NPU 조기상용화 지원…AI반도체 2434억 투자",
+     "score": 0.6068,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20251218_000954",
+     "doc_type": "news",
+     "title": "정부, 2030년까지 AI 반도체 유니콘 5개 키운다… ‘K-NPU 프로젝트’ 가동",
+     "score": 0.604,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250610_010986",
+     "doc_type": "news",
+     "title": "정부, 올해 AI 반도체에 2434억 투입…국산 NPU 조기 상용화 지원",
+     "score": 0.6036,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250721_076491",
+     "doc_type": "news",
+     "title": "정부 AI 인프라 정책에 외면받는 '국산 서버'…NPU와 함께 풀스택 고려해야",
+     "score": 0.5991,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": [
+    [
+     "news_20250610_009020",
+     "news_20250610_010986",
+     0.62
+    ]
+   ]
+  },
+  {
+   "id": "e26",
+   "type": "time",
+   "q": "오픈엣지테크놀로지의 출원 특허 수는 2022년과 2025년 사업보고서에서 각각 몇 건이며, NPU IP의 상용화 단계는 어떻게 설명되는가?",
+   "rank": 1,
+   "top1_score": 0.6664,
+   "top5": [
+    {
+     "doc_id": "dart_20230323_20230323001052",
+     "doc_type": "dart",
+     "title": "오픈엣지테크놀로지 사업보고서 (2022.12) - II. 사업의 내용",
+     "score": 0.6664,
+     "gold": true
+    },
+    {
+     "doc_id": "dart_20250320_20250320000861",
+     "doc_type": "dart",
+     "title": "오픈엣지테크놀로지 사업보고서 (2024.12) - II. 사업의 내용",
+     "score": 0.6658,
+     "gold": false
+    },
+    {
+     "doc_id": "dart_20260319_20260319001410",
+     "doc_type": "dart",
+     "title": "오픈엣지테크놀로지 사업보고서 (2025.12) - II. 사업의 내용",
+     "score": 0.6606,
+     "gold": true
+    },
+    {
+     "doc_id": "dart_20240321_20240321000788",
+     "doc_type": "dart",
+     "title": "오픈엣지테크놀로지 사업보고서 (2023.12) - II. 사업의 내용",
+     "score": 0.6568,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20251230_007468",
+     "doc_type": "news",
+     "title": "오픈엣지테크놀로지, 업황 개선 힘입어 내년 외형 성장 기대-한국",
+     "score": 0.6529,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": [
+    [
+     "dart_20250320_20250320000861",
+     "dart_20260319_20260319001410",
+     0.8
+    ]
+   ]
+  },
+  {
+   "id": "e27",
+   "type": "time",
+   "q": "SK하이닉스의 HBM 제품은 HBM3E에서 HBM4로 어떻게 넘어갔나?",
+   "rank": null,
+   "top1_score": 0.713,
+   "top5": [
+    {
+     "doc_id": "news_20250319_072689",
+     "doc_type": "news",
+     "title": "SK하이닉스, 엔비디아 개발자회의서 HBM4·첨단 메모리 대거 쏟아낸다",
+     "score": 0.713,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260423_074251",
+     "doc_type": "news",
+     "title": "SK하이닉스, 영업이익률 72%…HBM 3년치 주문 폭발",
+     "score": 0.712,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260127_011897",
+     "doc_type": "news",
+     "title": "SK하이닉스, MS 차세대 AI 가속기에 HBM3E 단독 공급",
+     "score": 0.6955,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250323_071327",
+     "doc_type": "news",
+     "title": "HBM4로 눈 돌리는 삼성·SK하이닉스…새로운 격전지서 '격돌'",
+     "score": 0.6927,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250923_050346",
+     "doc_type": "news",
+     "title": "HBM 자체 개발 돌입한 중국…삼성은 엔비디아 납품 임박, 시장 변화는",
+     "score": 0.6856,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e28",
+   "type": "time",
+   "q": "AI 반도체 인재 양성 정책은 2022년 이후 어떻게 확대됐나?",
+   "rank": null,
+   "top1_score": 0.605,
+   "top5": [
+    {
+     "doc_id": "news_20260705_100958",
+     "doc_type": "news",
+     "title": "[동십자각] 반도체 인재 양성의 길",
+     "score": 0.605,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240125_064538",
+     "doc_type": "news",
+     "title": "[반도체인재 '각국도생']⑤中은 문과생도 컴공 수강 허용하는데…韓은 칸막이",
+     "score": 0.578,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240115_015785",
+     "doc_type": "news",
+     "title": "[반도체 민생토론] '인재 양성' 발판 AI 반도체 주도권 확보 총력",
+     "score": 0.5715,
+     "gold": false
+    },
+    {
+     "doc_id": "report_20240226_paper_801",
+     "doc_type": "report",
+     "title": "대만 반도체산업 분석 및 정책적 시사점",
+     "score": 0.5589,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240125_025751",
+     "doc_type": "news",
+     "title": "산업·교육·과기, 반도체 메가클러스터 인재 양성 '원팀' 지원",
+     "score": 0.5491,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e29",
+   "type": "synthesis",
+   "q": "반도체 특별법의 근로시간 예외 조항을 둘러싼 찬반 쟁점은 무엇인가?",
+   "rank": 1,
+   "top1_score": 0.6111,
+   "top5": [
+    {
+     "doc_id": "news_20250208_086405",
+     "doc_type": "news",
+     "title": "AI 반도체 경쟁에 불붙은 ‘주 52시간 예외 특별법’ 논란 [뉴스 쉽게보기]",
+     "score": 0.6111,
+     "gold": true
+    },
+    {
+     "doc_id": "news_20251127_082759",
+     "doc_type": "news",
+     "title": "‘주 52시간 예외’ 빠진 반도체특별법, 국회 통과 급물살",
+     "score": 0.6056,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260720_093980",
+     "doc_type": "news",
+     "title": "[사설]반도체 성공위해..52시간제 규제 깨야",
+     "score": 0.6018,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260819_077665",
+     "doc_type": "news",
+     "title": "반도체는 ‘시간 전쟁’인데…한국 R&D만 매주 ‘52시간 벽’[Deep Spot]",
+     "score": 0.5947,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20251126_072816",
+     "doc_type": "news",
+     "title": "반도체법 '주52시간 예외' 제외 여야 잠정 합의… 연말 처리 전망",
+     "score": 0.5938,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e30",
+   "type": "synthesis",
+   "q": "국산 AI 반도체 기업들이 겪는 어려움과 정부의 지원책은 무엇인가?",
+   "rank": 6,
+   "top1_score": 0.7537,
+   "top5": [
+    {
+     "doc_id": "news_20260615_000289",
+     "doc_type": "news",
+     "title": "국산 AI 반도체, 수요가 당기고 제조가 밀어준다",
+     "score": 0.7537,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260429_013193",
+     "doc_type": "news",
+     "title": "국산 AI 반도체 상용화 속도…과기정통부 경쟁력 갖추게 지원",
+     "score": 0.7188,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260707_000736",
+     "doc_type": "news",
+     "title": "국산 AI반도체 확산 돕는다…기술지원센터 개소",
+     "score": 0.697,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20230817_073331",
+     "doc_type": "news",
+     "title": "국산 AI반도체 실적 전폭 지원… 오송 클러스터 조성 등 7조2000억원 투자 유도",
+     "score": 0.6865,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260707_109252",
+     "doc_type": "news",
+     "title": "국산 AI반도체 도입 돕는다…기술지원센터 개소",
+     "score": 0.6855,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e31",
+   "type": "synthesis",
+   "q": "미국의 대중 반도체 수출통제와 공급망 재편이 한국 반도체 산업에 주는 영향은?",
+   "rank": 3,
+   "top1_score": 0.6885,
+   "top5": [
+    {
+     "doc_id": "news_20231018_011991",
+     "doc_type": "news",
+     "title": "미국의 對中 반도체 수출통제 강화에…정부 韓 영향 제한적",
+     "score": 0.6885,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240805_068170",
+     "doc_type": "news",
+     "title": "韓, 반도체 대중 수출 늘자… 中 “美 수출 제재 한계 드러나”",
+     "score": 0.678,
+     "gold": false
+    },
+    {
+     "doc_id": "report_20220429_issue_775",
+     "doc_type": "report",
+     "title": "글로벌 반도체 공급망 재편 움직임과 정책적 시사점",
+     "score": 0.6756,
+     "gold": true
+    },
+    {
+     "doc_id": "news_20241022_098425",
+     "doc_type": "news",
+     "title": "중국 반도체 공급망에 막강한 영향력…공급망 재편 신중한 접근 필요",
+     "score": 0.6734,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240909_007370",
+     "doc_type": "news",
+     "title": "美中, 기술 전쟁에 한국만 불똥…반도체 우려 커지나",
+     "score": 0.6673,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e32",
+   "type": "synthesis",
+   "q": "온디바이스 AI 반도체 육성을 위해 정부는 어떤 사업을 추진하고 있나?",
+   "rank": null,
+   "top1_score": 0.7002,
+   "top5": [
+    {
+     "doc_id": "news_20240402_000032",
+     "doc_type": "news",
+     "title": "7대 주력산업-반도체 업계 'AI 반도체 협업'…정부도 지원",
+     "score": 0.7002,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250613_000073",
+     "doc_type": "news",
+     "title": "'AI 반도체 추경 사업' 기업 의견청취·지원책 모색",
+     "score": 0.6715,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250521_000555",
+     "doc_type": "news",
+     "title": "대동, 농업용 AI 반도체 개발 참여…정부 1조원 프로젝트 합류",
+     "score": 0.6694,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250520_000541",
+     "doc_type": "news",
+     "title": "'K온디바이스AI 반도체' 드림팀 뜬다…현대차·LG·두산 참여(종합)",
+     "score": 0.6651,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260317_000218",
+     "doc_type": "news",
+     "title": "과기정통부, AI 반도체 기업과 협력 강화…5년간 50조원 투자",
+     "score": 0.6637,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e33",
+   "type": "synthesis",
+   "q": "시스템반도체(팹리스) 산업에서 한국의 약점과 정책 과제는 무엇인가?",
+   "rank": 2,
+   "top1_score": 0.5498,
+   "top5": [
+    {
+     "doc_id": "news_20260210_086521",
+     "doc_type": "news",
+     "title": "[인사이트 칼럼] 한국 시스템반도체 산업의 발전을 위한 제언",
+     "score": 0.5498,
+     "gold": false
+    },
+    {
+     "doc_id": "report_20231205_podata_357",
+     "doc_type": "report",
+     "title": "시스템반도체 산업의 글로벌 지형 및 정책 방안 연구",
+     "score": 0.5293,
+     "gold": true
+    },
+    {
+     "doc_id": "news_20250730_061664",
+     "doc_type": "news",
+     "title": "韓 시스템반도체 점유율 2%…“팰리스 스타트업 육성 해법”",
+     "score": 0.5276,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20221205_045665",
+     "doc_type": "news",
+     "title": "[데스크가 만났습니다]이서규 한국팹리스산업협회장 시스템 반도체 경쟁력 확보 한목소리 낼 것",
+     "score": 0.5221,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250730_061672",
+     "doc_type": "news",
+     "title": "韓 시스템 반도체 점유율 2% 불과…팹리스 스타트업 육성 필수적",
+     "score": 0.5072,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e34",
+   "type": "synthesis",
+   "q": "2025~2026년 AI 반도체 수요 확대가 국내 반도체 수출 규모와 품목 구성에 어떤 영향을 미쳤는가?",
+   "rank": null,
+   "top1_score": 0.6952,
+   "top5": [
+    {
+     "doc_id": "news_20260727_058958",
+     "doc_type": "news",
+     "title": "AI가 바꾼 반도체 지도…한은 중국 수출 비중 줄고 대만 부상",
+     "score": 0.6952,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260727_014359",
+     "doc_type": "news",
+     "title": "중국 비중 줄고 대만 ‘급부상’…AI가 바꾼 반도체 수출",
+     "score": 0.69,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260724_001049",
+     "doc_type": "news",
+     "title": "AI 반도체 호황에 웃었다…中企 반도체·장비 수출 '역대 최대'",
+     "score": 0.6873,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260727_015821",
+     "doc_type": "news",
+     "title": "중국 대신 대만으로 향하는 韓 반도체…이면엔 중국의 반도체 굴기",
+     "score": 0.6848,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260102_040054",
+     "doc_type": "news",
+     "title": "[이슈분석] 2026년 병오년 국내외 증시 전망 및 전략은?",
+     "score": 0.6838,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e35",
+   "type": "unanswerable",
+   "q": "가온칩스 직원의 평균 연봉은 얼마인가?",
+   "rank": null,
+   "top1_score": 0.4756,
+   "top5": [
+    {
+     "doc_id": "news_20260310_063476",
+     "doc_type": "news",
+     "title": "‘반도체 호황’ 삼성전자, 임직원 평균 연봉 1억 5800만원으로 역대 최대 기록",
+     "score": 0.4756,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20261004_077485",
+     "doc_type": "news",
+     "title": "삼전닉스 얼마나 받길래… 엔비디아 직원들 술렁인 이유 [시선'칩'중(下)]",
+     "score": 0.4744,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240701_009328",
+     "doc_type": "news",
+     "title": "SK온 비상경영 특단 대책…흑자 때까지 임원 연봉 안 올린다",
+     "score": 0.472,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260707_014427",
+     "doc_type": "news",
+     "title": "연봉 29배 아니었다고?…수입차·명품 들썩인 성과급의 진실 [숫자 뒤의 진실]",
+     "score": 0.4673,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260311_090191",
+     "doc_type": "news",
+     "title": "반도체 훈풍에 '지갑 두둑'…삼성전자 평균 연봉 1억5800만원",
+     "score": 0.4626,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e36",
+   "type": "unanswerable",
+   "q": "리벨리온의 2030년 매출 목표는 얼마인가?",
+   "rank": null,
+   "top1_score": 0.5346,
+   "top5": [
+    {
+     "doc_id": "news_20241122_015099",
+     "doc_type": "news",
+     "title": "“2030년까지 ROE 15% 이상 향상”",
+     "score": 0.5346,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260714_042478",
+     "doc_type": "news",
+     "title": "3% 성장 공식화…전력반도체·로봇 등 잠재성장률 견인[하반기 경제]",
+     "score": 0.5014,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240827_064966",
+     "doc_type": "news",
+     "title": "R＆D 예산 내년 29조7000억원, ‘역대 최대’ 수준 회복 [2025 예산안]",
+     "score": 0.4975,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260308_082896",
+     "doc_type": "news",
+     "title": "일본, 자국산 반도체 매출 2040년 376조원 목표...현재의 8배",
+     "score": 0.4908,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20220722_089253",
+     "doc_type": "news",
+     "title": "尹정부, 반도체 340조 투자…15만+α 전문인력 양성",
+     "score": 0.4794,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e37",
+   "type": "unanswerable",
+   "q": "2019년 정부의 AI 반도체 관련 예산 규모는 얼마였나?",
+   "rank": null,
+   "top1_score": 0.7408,
+   "top5": [
+    {
+     "doc_id": "news_20260428_025116",
+     "doc_type": "news",
+     "title": "AI 예산 10조원 돌파했지만…반도체·인프라 편중 여전",
+     "score": 0.7408,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250901_025027",
+     "doc_type": "news",
+     "title": "국가 AI 예산 절반 운용하는 과기부 GPU 확보하고 피지컬AI 개발",
+     "score": 0.7256,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250901_073939",
+     "doc_type": "news",
+     "title": "과기정통부, 내년 예산 23.7조원 '역대최대'...'AI+과학기술' 미래성장 견인",
+     "score": 0.7169,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260901_084362",
+     "doc_type": "news",
+     "title": "AI에 9.4조 쏟는다…과기정통부, 내년 예산 '역대 최대' 29.6조 편성",
+     "score": 0.7166,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260901_069545",
+     "doc_type": "news",
+     "title": "과기정통부 내년 예산 29조6000억원 편성… AI 예산은 1년 새 84% 늘려",
+     "score": 0.7124,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e38",
+   "type": "unanswerable",
+   "q": "엔비디아 루빈 GPU의 다이 면적은 몇 ㎟인가?",
+   "rank": null,
+   "top1_score": 0.5865,
+   "top5": [
+    {
+     "doc_id": "news_20260822_094693",
+     "doc_type": "news",
+     "title": "엔비디아, 월가는 실적보다 '이것'에 더 관심[박신영의 개장전 요것만]",
+     "score": 0.5865,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260315_076954",
+     "doc_type": "news",
+     "title": "엔비디아 ‘에이전틱 AI’ 시대 열 차세대 가속기 플랫폼 공개 임박",
+     "score": 0.5735,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250114_052502",
+     "doc_type": "news",
+     "title": "엔비디아 새 GPU에 덩달아 주목받는 'GDDR'…18兆 시장된다",
+     "score": 0.536,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20230605_059591",
+     "doc_type": "news",
+     "title": "엔비디아 CEO는 왜 대중 반도체 수출통제 비판했나",
+     "score": 0.5202,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240830_068201",
+     "doc_type": "news",
+     "title": "'12단 HBM3E' 수급 다급해진 엔비디아…삼성·SK 대응 분주",
+     "score": 0.5188,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e39",
+   "type": "unanswerable",
+   "q": "오픈엣지테크놀로지의 NPU IP 라이선스 단가는 얼마인가?",
+   "rank": null,
+   "top1_score": 0.6496,
+   "top5": [
+    {
+     "doc_id": "news_20221006_034065",
+     "doc_type": "news",
+     "title": "오픈엣지테크놀로지, ‘SEDEX 2022’서 새로운 NPU IP데모 최초 공개",
+     "score": 0.6496,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20230730_060387",
+     "doc_type": "news",
+     "title": "오픈엣지 “자율주행 정조준”...초당 250조번 연산 NPU IP 개발",
+     "score": 0.6472,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240416_022230",
+     "doc_type": "news",
+     "title": "오픈엣지, NPU 설계 IP '인라이트 프로' 공개",
+     "score": 0.6316,
+     "gold": false
+    },
+    {
+     "doc_id": "dart_20230323_20230323001052",
+     "doc_type": "dart",
+     "title": "오픈엣지테크놀로지 사업보고서 (2022.12) - II. 사업의 내용",
+     "score": 0.6251,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20230116_006327",
+     "doc_type": "news",
+     "title": "[클릭 e종목]오픈엣지, AI반도체 핵심 NPU…인텔 대비 3.4배 효율",
+     "score": 0.6238,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  },
+  {
+   "id": "e40",
+   "type": "unanswerable",
+   "q": "리벨리온의 상장 공모가는 얼마로 확정됐나?",
+   "rank": null,
+   "top1_score": 0.3948,
+   "top5": [
+    {
+     "doc_id": "news_20250420_112090",
+     "doc_type": "news",
+     "title": "“코로나는 우한 실험실서 유출됐다?”.. 백악관 홈페이지에 ‘랩 리크’ 전격 게재",
+     "score": 0.3948,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20241014_057034",
+     "doc_type": "news",
+     "title": "[이번주 증시 전망] 다시 부는 AI 반도체 훈풍…상승세 이어갈 수 있을까",
+     "score": 0.3882,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20240310_075786",
+     "doc_type": "news",
+     "title": "코스피 2700선 돌파 눈앞…'저PBR·AI·금리'에 달렸다[주간증시전망]",
+     "score": 0.3785,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20260331_007226",
+     "doc_type": "news",
+     "title": "몸값 3.4조원 기록한 리벨리온… 상장 전 6400억원 유치",
+     "score": 0.3779,
+     "gold": false
+    },
+    {
+     "doc_id": "news_20250718_069760",
+     "doc_type": "news",
+     "title": "[증시 인사이트] 트럼프, '파월 퇴진' 압박에 美 국채금리 발작",
+     "score": 0.3733,
+     "gold": false
+    }
+   ],
+   "near_dup_pairs_top5": []
+  }
+ ]
+}

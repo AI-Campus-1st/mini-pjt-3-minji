@@ -1,0 +1,22 @@
+# 환경변수 (API 키) — 절대 업로드 금지
+.env
+
+# 원본 데이터 (GitHub 100MB 제한 초과)
+data/
+*.csv
+
+# 벡터 DB·원문 DB (인덱서로 재생성 가능)
+store/chroma/
+store/*.db
+
+# 파이썬 캐시·가상환경
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 노트북 체크포인트
+.ipynb_checkpoints/
+
+# 맥 시스템 파일
+.DS_Store

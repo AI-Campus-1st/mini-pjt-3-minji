@@ -1,0 +1,127 @@
+{
+ "model": "text-embedding-3-small",
+ "chunks": 13557,
+ "chars": 12029484,
+ "dim": 1536,
+ "query_ms_per_question": 19.5,
+ "n_questions": 9,
+ "hit@1": 0.556,
+ "hit@3": 0.778,
+ "hit@5": 0.778,
+ "mrr": 0.648,
+ "per_question": [
+  {
+   "id": "q01",
+   "type": "fact",
+   "rank": 2,
+   "top1_score": 0.6469,
+   "top3": [
+    "news_20250612_111066",
+    "press_20250917_156722812",
+    "press_20260929_156783415"
+   ]
+  },
+  {
+   "id": "q02",
+   "type": "fact",
+   "rank": 3,
+   "top1_score": 0.6224,
+   "top3": [
+    "news_20250331_034850",
+    "news_20260714_011188",
+    "dart_20250313_20250313001171"
+   ]
+  },
+  {
+   "id": "q03",
+   "type": "fact",
+   "rank": 1,
+   "top1_score": 0.7274,
+   "top3": [
+    "dart_20260319_20260319001410",
+    "dart_20230323_20230323001052",
+    "dart_20250320_20250320000861"
+   ]
+  },
+  {
+   "id": "q04",
+   "type": "fact",
+   "rank": 1,
+   "top1_score": 0.714,
+   "top3": [
+    "press_20261002_156784177",
+    "news_20251210_029390",
+    "news_20261002_083270"
+   ]
+  },
+  {
+   "id": "q05",
+   "type": "compare",
+   "rank": null,
+   "top1_score": 0.6981,
+   "top3": [
+    "news_20240228_101603",
+    "news_20260602_074340",
+    "news_20240502_055299"
+   ]
+  },
+  {
+   "id": "q06",
+   "type": "compare",
+   "rank": 1,
+   "top1_score": 0.6052,
+   "top3": [
+    "report_20240226_paper_801",
+    "news_20241129_098448",
+    "news_20241129_095960"
+   ]
+  },
+  {
+   "id": "q07",
+   "type": "time",
+   "rank": 1,
+   "top1_score": 0.5492,
+   "top3": [
+    "news_20240725_079814",
+    "news_20250123_076246",
+    "news_20240725_102888"
+   ]
+  },
+  {
+   "id": "q08",
+   "type": "synthesis",
+   "rank": null,
+   "top1_score": 0.5915,
+   "top3": [
+    "news_20251218_015387",
+    "press_20220627_156513527",
+    "news_20260813_018561"
+   ]
+  },
+  {
+   "id": "q09",
+   "type": "synthesis",
+   "rank": 1,
+   "top1_score": 0.6111,
+   "top3": [
+    "news_20250208_086405",
+    "news_20251127_082759",
+    "news_20250909_030962"
+   ]
+  },
+  {
+   "id": "q10",
+   "type": "unanswerable",
+   "rank": null,
+   "top1_score": 0.5054,
+   "top3": [
+    "news_20260128_050900",
+    "news_20260708_039223",
+    "news_20250213_005444"
+   ]
+  }
+ ],
+ "index_seconds": 321.8,
+ "chars_per_second": 37382,
+ "full_corpus_minutes_est": 35.3
+}

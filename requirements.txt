@@ -1,0 +1,21 @@
+# 데이터 처리
+pandas
+python-dotenv
+requests
+beautifulsoup4
+lxml               # BeautifulSoup 파서 (DART XML)
+pymupdf            # PDF 텍스트 추출 (보도자료·보고서)
+
+# RAG (LangChain + Chroma + OpenAI)
+langchain
+langchain-openai
+langchain-chroma
+chromadb
+openai
+
+# UI·시각화
+streamlit
+plotly
+
+# (선택) 임베딩 모델 비교 파일럿용 — eval/pilot_embedding.py --model kure
+# sentence-transformers
