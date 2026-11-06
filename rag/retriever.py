@@ -20,7 +20,7 @@ from dataclasses import asdict, dataclass
 import chromadb
 from dotenv import load_dotenv
 
-from settings import CHROMA_DIR, EMBED_MODEL, ROOT, collection_name
+from settings import CHROMA_DIR, EMBED_MODEL, PRIMARY_DOC_TYPES, ROOT, collection_name
 
 QUERY_CACHE = ROOT / "data" / "cache" / "query_embeddings.json"   # 같은 질문은 다시 임베딩하지 않음
 
@@ -109,6 +109,52 @@ class Retriever:
                             published_at=meta.get("published_at", ""), section=meta.get("section"),
                             page=meta.get("page"), text=doc, score=round(1 - dist, 4)))
         return hits
+
+    @staticmethod
+    def _group(hits: list[Hit], k_docs: int, chunks_per_doc: int) -> list[list[Hit]]:
+        """청크 목록(점수 순) → 문서별 묶음. 상위 k_docs 문서, 문서마다 최대 chunks_per_doc 청크."""
+        groups: dict[str, list[Hit]] = {}
+        for h in hits:
+            if h.doc_id in groups:
+                if len(groups[h.doc_id]) < chunks_per_doc:
+                    groups[h.doc_id].append(h)
+            elif len(groups) < k_docs:
+                groups[h.doc_id] = [h]
+        return list(groups.values())   # dict 는 넣은 순서 유지 → 문서 1위 점수 순
+
+    def search_docs_grouped(self, query: str, k_docs: int = 5, fetch_k: int = 50, chunks_per_doc: int = 1,
+                            primary_min: int = 0, primary_margin: float | None = None,
+                            doc_types=None, year_from=None, year_to=None) -> list[list[Hit]]:
+        """문서 단위 결과 + 문서마다 청크 여러 개: [[문서1 청크들], [문서2 청크들], ...].
+
+        1) 전체에서 검색해 상위 k_docs 문서를 고르고, 상위 fetch_k 청크 안의 같은 문서 청크를
+           최대 chunks_per_doc 개까지 묶는다 (Day 5 실험 1 'chunks3').
+        2) primary_min > 0 이면 1차 자료(공시·보도자료·보고서)를 최소 primary_min 개 보장한다 (실험 2).
+           뉴스가 청크의 93.5% 라 1차 자료가 상위권에서 밀리는 문제 대응.
+           - 1차 자료만 따로 검색해, 부족한 수만큼 가장 아래 순위의 뉴스와 바꾼다.
+           - primary_margin: 1위 문서 점수보다 이만큼 이상 낮은 1차 자료는 넣지 않는다
+             (질문과 무관한 1차 자료가 뉴스 자리를 뺏지 않게). None 이면 제한 없음.
+        호출 위치: rag/chain.RAGChain.prepare
+        """
+        filters = dict(year_from=year_from, year_to=year_to)
+        groups = self._group(self.search(query, k=fetch_k, doc_types=doc_types, **filters), k_docs, chunks_per_doc)
+        if primary_min <= 0 or not groups:
+            return groups
+        allowed = [t for t in (doc_types or PRIMARY_DOC_TYPES) if t in PRIMARY_DOC_TYPES]
+        have = sum(g[0].doc_type in PRIMARY_DOC_TYPES for g in groups)
+        if not allowed or have >= primary_min:
+            return groups                      # 이미 충분하거나, 필터로 1차 자료를 제외한 경우
+        top = groups[0][0].score
+        ids = {g[0].doc_id for g in groups}
+        cands = [g for g in self._group(self.search(query, k=fetch_k, doc_types=allowed, **filters),
+                                        k_docs, chunks_per_doc)
+                 if g[0].doc_id not in ids and (primary_margin is None or g[0].score >= top - primary_margin)]
+        for g in cands[:primary_min - have]:
+            news_idx = [i for i, x in enumerate(groups) if x[0].doc_type not in PRIMARY_DOC_TYPES]
+            if len(groups) >= k_docs and news_idx:
+                groups.pop(news_idx[-1])       # 가장 아래 순위 뉴스를 뺀다
+            groups.append(g)
+        return sorted(groups, key=lambda g: -g[0].score)   # 번호 [n] 이 점수 순이 되도록
 
     def search_docs(self, query: str, k_docs: int = 5, fetch_k: int = 50, **filters) -> list[Hit]:
         """문서 단위 결과: 청크 fetch_k 개를 가져와 같은 문서는 가장 점수 높은 청크 1개만 남긴다.

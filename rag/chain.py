@@ -20,8 +20,8 @@ from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
-from rag.prompts import (DOC_TYPE_LABEL, PRIMARY_TYPES, REFUSAL, REWRITE_PROMPT, SYSTEM_PROMPT,
-                         format_context, is_refusal)
+from rag.prompts import (DOC_TYPE_LABEL, PRIMARY_TYPES, PROMPT_VERSION, REFUSAL, REWRITE_PROMPT,
+                         SYSTEM_PROMPTS, DATE_HINT_VERSIONS, format_context, is_refusal)
 from rag.retriever import Retriever
 from settings import CHUNK_CONFIG, LLM_MODEL
 
@@ -32,6 +32,9 @@ MIN_SCORE = 0.45
 K_DOCS = 6          # 답변 근거로 넘길 문서 수 (같은 문서의 청크는 1개로 합침)
 FETCH_K = 50        # 문서 단위로 묶기 전에 가져올 청크 수 (eval/run_eval.py 와 동일)
 HISTORY_TURNS = 3   # 생성·재작성에 넣을 최근 대화 턴 수 (토큰·비용 제한)
+PRIMARY_MIN = 1      # 1차 자료 최소 보장 수. Day 5 실험 2 balance1 결과로 0 → 1
+PRIMARY_MARGIN = 0.10  # 1위 점수보다 0.10 넘게 낮은 1차 자료는 넣지 않음 (eval/exp_balance.py)
+CHUNKS_PER_DOC = 3  # 문서마다 넘길 청크 수. Day 5 실험 chunks3 결과로 1 → 3 (report/eval_answers.md)
 
 
 @dataclass
@@ -76,6 +79,26 @@ class Prepared:
         return self.sources[0].score if self.sources else None
 
 
+def to_source(n: int, chunks: list) -> Source:
+    """한 문서의 청크들(점수 순) → Source 1개. 번호 [n]은 문서 단위로 붙는다.
+
+    청크가 여러 개면 문서 안 순서(chunk_id 의 c000 번호)로 다시 정렬해 이어 붙이고,
+    청크마다 섹션·쪽 표시를 달아 모델이 위치를 알 수 있게 한다. 점수는 가장 높은 청크의 값.
+    """
+    best = chunks[0]
+    if len(chunks) == 1:
+        text = best.text
+    else:
+        parts = []
+        for h in sorted(chunks, key=lambda h: h.chunk_id):
+            loc = " · ".join(x for x in [h.section, f"{h.page}쪽" if h.page else None] if x)
+            parts.append((f"({loc})\n" if loc else "") + h.text.strip())
+        text = "\n…\n".join(parts)
+    return Source(n=n, doc_id=best.doc_id, doc_type=best.doc_type, source=best.source, title=best.title,
+                  url=best.url, published_at=best.published_at, section=best.section, page=best.page,
+                  text=text, score=best.score)
+
+
 def to_messages(history: list[dict], turns: int = HISTORY_TURNS) -> list:
     """화면의 대화 기록 [{"role": "user"|"assistant", "content": str}, ...] → LangChain 메시지 (최근 turns 턴)."""
     msgs = []
@@ -105,17 +128,22 @@ class RAGChain:
     """
 
     def __init__(self, config: str = CHUNK_CONFIG, retriever: Retriever | None = None, llm=None,
-                 k_docs: int = K_DOCS, min_score: float = MIN_SCORE, rewrite: bool = True):
+                 k_docs: int = K_DOCS, min_score: float = MIN_SCORE, rewrite: bool = True,
+                 chunks_per_doc: int = CHUNKS_PER_DOC, primary_min: int = PRIMARY_MIN,
+                 primary_margin: float | None = PRIMARY_MARGIN, prompt_version: str = PROMPT_VERSION):
         if llm is None:
             from langchain_openai import ChatOpenAI
             llm = ChatOpenAI(model=LLM_MODEL, temperature=0)   # 0: 같은 질문에 같은 답 (평가 재현성)
         self.retriever = retriever or Retriever(config)
         self.k_docs, self.min_score, self.use_rewrite = k_docs, min_score, rewrite
+        self.chunks_per_doc = chunks_per_doc
+        self.primary_min, self.primary_margin = primary_min, primary_margin
+        self.prompt_version = prompt_version   # rag/prompts.SYSTEM_PROMPTS 의 키 (평가 기록용)
         parser = StrOutputParser()
         # LCEL(LangChain Expression Language): 프롬프트 | 모델 | 파서 를 하나의 실행 단위로 연결
         self.answer_chain = (
             ChatPromptTemplate.from_messages([
-                ("system", SYSTEM_PROMPT),
+                ("system", SYSTEM_PROMPTS[prompt_version]),
                 MessagesPlaceholder("history"),
                 ("human", "{question}"),
             ]).partial(refusal=REFUSAL)
@@ -139,11 +167,11 @@ class RAGChain:
         """검색까지 수행하고, 생성할지 거절할지 상태를 정한다."""
         history = history or []
         query = self.rewrite(question, history)
-        hits = self.retriever.search_docs(query, k_docs=self.k_docs, fetch_k=FETCH_K,
-                                          doc_types=doc_types, year_from=year_from, year_to=year_to)
-        sources = [Source(n=i, doc_id=h.doc_id, doc_type=h.doc_type, source=h.source, title=h.title,
-                          url=h.url, published_at=h.published_at, section=h.section, page=h.page,
-                          text=h.text, score=h.score) for i, h in enumerate(hits, 1)]
+        groups = self.retriever.search_docs_grouped(query, k_docs=self.k_docs, fetch_k=FETCH_K,
+                                                    chunks_per_doc=self.chunks_per_doc,
+                                                    primary_min=self.primary_min, primary_margin=self.primary_margin,
+                                                    doc_types=doc_types, year_from=year_from, year_to=year_to)
+        sources = [to_source(i, g) for i, g in enumerate(groups, 1)]
         status = "ok"
         if not sources:
             status = "empty"
@@ -158,7 +186,7 @@ class RAGChain:
             yield REFUSAL
             return
         yield from self.answer_chain.stream({
-            "context": format_context(prep.sources),
+            "context": format_context(prep.sources, date_hints=self.prompt_version in DATE_HINT_VERSIONS),
             "history": to_messages(prep.history),
             "question": prep.question,
         })
