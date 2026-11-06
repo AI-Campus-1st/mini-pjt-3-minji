@@ -4,9 +4,13 @@
 같은 벡터 공간에서 비교할 수 있으므로, 모델 이름을 이 파일 한 곳에서만 정의한다.
 (모델 선택 근거: report/embedding_decision.md)
 """
+import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 ROOT = Path(__file__).resolve().parent
+load_dotenv(ROOT / ".env")   # OPENAI_API_KEY, (선택) LLM_MODEL
 
 # 임베딩
 EMBED_MODEL = "text-embedding-3-small"
@@ -15,6 +19,11 @@ EMBED_DIM = 1536
 # 저장소
 DOCS_DB = ROOT / "store" / "docs.db"
 CHROMA_DIR = ROOT / "store" / "chroma"
+
+
+# 답변 생성 (rag/chain.py)
+LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4o-mini")   # .env 에 LLM_MODEL=... 로 바꿀 수 있다
+CHUNK_CONFIG = "B"        # 챗봇이 쓰는 청킹 설정 (Day 3 측정에서 Hit@3 우세, report/eval_baseline.md)
 
 
 def collection_name(config: str) -> str:
