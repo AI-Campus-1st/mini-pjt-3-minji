@@ -24,3 +24,6 @@ venv/
 # Streamlit 이 실행 시 자동 생성하는 AI 코딩 도구용 링크 (프로젝트와 무관)
 .agents/
 .claude/
+
+# 제출 전 점검 결과 (개인 확인용, 저장소 미포함)
+report/checklist.md
