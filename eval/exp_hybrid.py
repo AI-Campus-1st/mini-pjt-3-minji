@@ -32,7 +32,7 @@ from rag.chain import RAGChain                    # noqa: E402
 from rag.prompts import format_context            # noqa: E402
 from rag.retriever import Retriever               # noqa: E402
 
-TARGET = ["e09", "e14", "e26", "e33"]   # 실패 원인 '답 청크가 의미 검색 밖' (report/eval_answers.md 5절)
+TARGET = ["e09", "e14", "e26", "e33"]   # 실패 원인 '답 청크가 의미 검색 밖' (report/evaluation.md 2부 5절)
 
 
 def key_numbers(answer_key: str) -> list[str]:

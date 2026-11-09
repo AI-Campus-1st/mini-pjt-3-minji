@@ -24,7 +24,7 @@
 - **챗봇의 역할**: 답을 대신 내리는 도구가 아니라 **근거 문서로 빠르게 연결하는 리서치 보조 도구**.
   그래서 UI의 중심은 답변 문장보다 출처 목록과 원문 확인 영역이다.
 
-**대표 질문 10개** (상세: `representative_questions.md`)
+**대표 질문 10개** (상세: `questions.md 1부`)
 
 | # | 유형 | 질문 |
 |---|---|---|
@@ -96,7 +96,7 @@
   그래서 "기술 선행 지표(특허)"나 "증권가 전망과 뉴스의 대조" 질문에는 답할 수 없다
 - **블로그(현장 반응) 미수집**: 대표 질문이 체감 반응이 아니라 사실·정책·산업 근거를 요구하므로 수집하지 않았다 (`collector/crawl_blog.py` 는 확장용 자리만 둠)
 
-상세: `system_overview.md` 4장, `troubleshooting.md` Day 1
+상세: `troubleshooting.md` Day 1
 
 ---
 
@@ -131,7 +131,7 @@ collector/          indexer/                                     store/         
 | `section` | DART 하위 섹션명 (예: "2. 주요 제품 및 서비스") |
 | `page` | KIET 보고서 쪽 번호 |
 
-상세: `chunk_design.md` 3장
+상세: `design.md 3부` 3장
 
 ---
 
@@ -183,13 +183,13 @@ collector/          indexer/                                     store/         
 **OpenAI 선택**: Hit@3 동점이고 인덱싱이 약 9배 빨라, 6일 안에 설정 A·B 를 모두 인덱싱하고 반복 실험할 수 있다.
 1위 정확도 손실은 상위 문서를 함께 넘기는 구조와 이후 검색 개선으로 보완한다고 판단했다.
 
-상세: `dedup_decision.md`, `chunk_design.md`, `embedding_decision.md`
+상세: `design.md` 1부(임베딩) · 2부(중복 처리) · 3부(청킹)
 
 ---
 
 ## 5. 평가셋 설계
 
-- **40문항을 직접 작성**하고 정답 문서는 원문을 읽어 확정했다 (`eval/eval_set.jsonl`, 설명: `eval_candidates.md`)
+- **40문항을 직접 작성**하고 정답 문서는 원문을 읽어 확정했다 (`eval/eval_set.jsonl`, 설명: `questions.md 2부`)
 
 | 유형 | 문항 | 구성 의도 |
 |---|---|---|
@@ -221,7 +221,7 @@ collector/          indexer/                                     store/         
 
 1차 측정 → 보완 후 상승은 **검색 개선이 아니라 측정 보정**이다 (같은 검색 결과를 올바른 라벨로 다시 채점).
 
-### 답변 품질 (baseline, `eval/run_answers.py`, 채점 기준은 `eval_answers.md` 1절)
+### 답변 품질 (baseline, `eval/run_answers.py`, 채점 기준은 `evaluation.md 2부` 1절)
 
 | 지표 | 값 |
 |---|---|
@@ -256,7 +256,7 @@ collector/          indexer/                                     store/         
 - 1위 유사도 분포: 답변 불가 문항도 최대 0.739 까지 올라가 답변 가능 평균(0.66)보다 높다
   → **유사도만으로는 거절을 판단할 수 없다** → 명백히 무관한 경우(0.45 미만)만 하한으로 거르고 나머지는 프롬프트가 판단
 
-상세: `eval_baseline.md`, `eval_answers.md` 2절
+상세: `evaluation.md 1부`, `evaluation.md 2부` 2절
 
 ---
 
@@ -299,7 +299,7 @@ collector/          indexer/                                     store/         
 - ※ 출처 오류 5 는 최종 실행을 40문항 전부 다시 검토하며 새로 잡은 2건 포함. 중간 실험은 변경 문항 위주로 채점해 같은 유형을 놓쳤을 수 있다
 - 같은 입력에서도 OpenAI 응답은 실행마다 달라졌다(temperature 0, 출처 같은 15문항의 문장 변화). **1~2문항 차이는 변동 범위**로 해석했다
 
-상세: `eval_answers.md` 3~10절
+상세: `evaluation.md 2부` 3~10절
 
 ---
 
@@ -340,7 +340,7 @@ collector/          indexer/                                     store/         
 
 ### 평가의 한계
 
-- **채점자**: 답변 채점은 `eval_answers.md` 1절 기준에 따라 Claude 가 수행하고, **최종 실행 40문항은 사용자가 문항별로 검토해 전부 동의**했다 (2026-11-09).
+- **채점자**: 답변 채점은 `evaluation.md 2부` 1절 기준에 따라 Claude 가 수행하고, **최종 실행 40문항은 사용자가 문항별로 검토해 전부 동의**했다 (2026-11-09).
   baseline 과 중간 실험은 Claude 채점만 거쳤다. 사람 2명 이상의 독립 채점과 일치도 측정은 하지 못했다
 - **평가셋 규모**: 40문항(답변 가능 34). 1문항이 약 3%p 라 실험 간 1~2문항 차이는 실행 간 변동과 구분하기 어렵다. 반복 실행 평균이 필요하다
 - **기준값 과적합**: 1차 자료 보장 격차 0.10, 거절 하한 0.45 는 이 40문항으로 정했다. 새 질문 세트로 검증하지 않았다
@@ -382,4 +382,4 @@ collector/          indexer/                                     store/         
   응답 시간 3.35 → 5.78초. e09 오답 → 정확(603.3억·80.3%), e26 오답 → 부분(특허 28 → 80건), e02 정확 → 부분(Conversion Kit 누락)
 - **채택**: 정확 +1·오답 −2 가 응답 +2.4초보다 크다고 판단해 챗봇 기본값으로 채택
 
-상세: `eval_answers.md` 9절, 문제 해결 기록: `troubleshooting.md`
+상세: `evaluation.md 2부` 9절, 문제 해결 기록: `troubleshooting.md`

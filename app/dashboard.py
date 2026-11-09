@@ -26,7 +26,7 @@ from settings import DOCS_DB, ROOT
 RESULTS = ROOT / "eval" / "results"
 GRADES = ROOT / "eval"
 
-# 답변 실험 (report/eval_answers.md 순서). 라벨은 '무엇을 바꿨는지'
+# 답변 실험 (report/evaluation.md 2부 순서). 라벨은 '무엇을 바꿨는지'
 EXPERIMENTS = [
     ("baseline", "0 baseline"),
     ("chunks3", "1 문서당 청크 3개"),
@@ -276,7 +276,7 @@ def chart_latency(tags: list[tuple[str, str]]) -> go.Figure:
 # ---------------------------------------------------------------------------
 def render() -> None:
     st.title("평가 결과")
-    st.caption("평가셋 40문항(답변 가능 34 · 답변 불가 6) 기준. 상세: report/eval_baseline.md, report/eval_answers.md")
+    st.caption("평가셋 40문항(답변 가능 34 · 답변 불가 6) 기준. 상세: report/evaluation.md 1부, report/evaluation.md 2부")
 
     exp = experiment_table()
     final_ans, final_grades = load_answers(FINAL_TAG), load_grades(FINAL_TAG)

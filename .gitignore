@@ -25,5 +25,5 @@ venv/
 .agents/
 .claude/
 
-# 제출 전 점검 결과 (개인 확인용, 저장소 미포함)
-report/checklist.md
+# 합치기 전 원본·초안·개인 확인용 문서 (로컬 보관, 저장소 미포함)
+report/_archive/

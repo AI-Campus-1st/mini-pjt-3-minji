@@ -2,7 +2,7 @@
 
 문서 임베딩(indexer/embed.py)과 질문 임베딩(rag/retriever.py)은 반드시 같은 모델이어야
 같은 벡터 공간에서 비교할 수 있으므로, 모델 이름을 이 파일 한 곳에서만 정의한다.
-(모델 선택 근거: report/embedding_decision.md)
+(모델 선택 근거: report/design.md 1부)
 """
 import os
 from pathlib import Path
@@ -25,7 +25,7 @@ CHROMA_DIR = ROOT / "store" / "chroma"
 LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4o-mini")   # .env 에 LLM_MODEL=... 로 바꿀 수 있다
 # 1차 자료: 발행 주체가 직접 낸 문서 (뉴스 = 언론 보도). 검색 균형(retriever)과 출처 표기(prompts)에 사용
 PRIMARY_DOC_TYPES = ("dart", "press", "report")
-CHUNK_CONFIG = "B"        # 챗봇이 쓰는 청킹 설정 (Day 3 측정에서 Hit@3 우세, report/eval_baseline.md)
+CHUNK_CONFIG = "B"        # 챗봇이 쓰는 청킹 설정 (Day 3 측정에서 Hit@3 우세, report/evaluation.md 1부)
 
 
 def keyword_db(config: str) -> Path:

@@ -18,11 +18,11 @@ AI 반도체 산업 동향과 기업 전략을 묻는 질문에 **기업 공시�
 
 **챗봇** — 답변 문장마다 [n] 출처 번호, 아래에 출처 목록(종류·발행처·보도일·링크)과 근거 부분·원문 보기, 왼쪽에 출처 종류·연도 필터
 
-![챗봇](report/chat.png)
+![챗봇](report/images/chat.png)
 
 **평가 결과** — 핵심 수치, 개선 실험별 답변 품질, 응답 시간·유사도 분포, 검색 지표, 지식베이스 구성
 
-![대시보드](report/dashboard.png)
+![대시보드](report/images/dashboard.png)
 
 ---
 
@@ -111,9 +111,8 @@ notebooks/   EDA               report/    리포트·설계 근거   data/     �
 ## 문서
 | 문서 | 내용 |
 |---|---|
-| [`report/REPORT.md`](report/REPORT.md) | 최종 리포트 (가이드 6장 10개 항목) |
-| `report/eval_answers.md` | 답변 평가와 개선 실험 5회 상세 |
-| `report/eval_baseline.md` | 검색 1차 측정, 정답 라벨 보완 |
-| `report/embedding_decision.md` · `chunk_design.md` · `dedup_decision.md` | 설계 결정 근거 |
-| `report/troubleshooting.md` | 개발 중 문제와 해결 기록 |
-| `report/plan_6days.md` | 6일 계획과 진행 체크 |
+| [`report/REPORT.md`](report/REPORT.md) | **최종 리포트** (가이드 6장 10개 항목) |
+| [`report/design.md`](report/design.md) | 설계 결정 근거 — 1부 임베딩 선택 · 2부 중복 처리 · 3부 청킹 비교 |
+| [`report/evaluation.md`](report/evaluation.md) | 평가 상세 — 1부 검색 품질 측정 · 2부 답변 평가와 개선 실험 5회 |
+| [`report/questions.md`](report/questions.md) | 질문 설계 — 1부 대표 질문 10개 · 2부 평가셋 40문항 |
+| [`report/troubleshooting.md`](report/troubleshooting.md) | 개발 중 만난 문제와 해결 기록 |

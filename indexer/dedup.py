@@ -4,7 +4,7 @@
 출력: store/docs.db 의 dedup_map — 문서마다 묶음(group_id)과 유지 여부(keep)
       → 청킹은 keep=1 인 문서만 사용한다. 정제 본문·원문은 지우지 않는다.
 
-판별 기준 (Day 2 탐색 결과 근거, report/dedup_decision.md 참고)
+판별 기준 (Day 2 탐색 결과 근거, report/design.md 2부 참고)
 | 구분 | 기준 | 대상 |
 |---|---|---|
 | 완전 중복 | URL 이 같거나 정제 본문이 완전히 같음 | 모든 문서 |

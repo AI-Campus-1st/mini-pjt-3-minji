@@ -26,7 +26,7 @@ from rag.retriever import Retriever
 from settings import CHUNK_CONFIG, LLM_MODEL
 
 # 거절 하한. Day 3 측정에서 답변 가능 문항의 1위 유사도 최솟값이 0.540~0.549 였다.
-# 답변 불가 문항도 최대 0.739 까지 올라가므로 유사도만으로는 거절할 수 없다 (report/eval_baseline.md 4절).
+# 답변 불가 문항도 최대 0.739 까지 올라가므로 유사도만으로는 거절할 수 없다 (report/evaluation.md 1부 4절).
 # → 명백히 무관한 질문만 거르는 하한으로 쓰고, 나머지 거절은 프롬프트(규칙 2·3)에 맡긴다.
 MIN_SCORE = 0.45
 K_DOCS = 6          # 답변 근거로 넘길 문서 수 (같은 문서의 청크는 1개로 합침)
@@ -35,8 +35,8 @@ HISTORY_TURNS = 3   # 생성·재작성에 넣을 최근 대화 턴 수 (토큰�
 PRIMARY_MIN = 1      # 1차 자료 최소 보장 수. Day 5 실험 2 balance1 결과로 0 → 1
 PRIMARY_MARGIN = 0.10  # 1위 점수보다 0.10 넘게 낮은 1차 자료는 넣지 않음 (eval/exp_balance.py)
 HYBRID = False       # 전체 하이브리드 검색(의미+BM25, RRF) 사용 여부 (실험 5 — 악화되어 미채택)
-KEYWORD_CHUNKS = 1   # 문서 안 키워드(BM25) 청크 보강 수. Day 5 실험 5 kwchunk1 결과로 0 → 1 (report/eval_answers.md 9절)
-CHUNKS_PER_DOC = 3  # 문서마다 넘길 청크 수. Day 5 실험 chunks3 결과로 1 → 3 (report/eval_answers.md)
+KEYWORD_CHUNKS = 1   # 문서 안 키워드(BM25) 청크 보강 수. Day 5 실험 5 kwchunk1 결과로 0 → 1 (report/evaluation.md 2부 9절)
+CHUNKS_PER_DOC = 3  # 문서마다 넘길 청크 수. Day 5 실험 chunks3 결과로 1 → 3 (report/evaluation.md 2부)
 
 
 @dataclass

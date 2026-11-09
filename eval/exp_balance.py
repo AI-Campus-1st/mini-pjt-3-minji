@@ -24,7 +24,7 @@ from rag.chain import FETCH_K, K_DOCS            # noqa: E402
 from rag.retriever import Retriever              # noqa: E402
 from settings import CHUNK_CONFIG, PRIMARY_DOC_TYPES   # noqa: E402
 
-TARGET = ["e01", "e07", "e16", "e18", "e19", "e23", "e28", "e34"]   # 실패 원인 '1차 자료 묻힘' (report/eval_answers.md)
+TARGET = ["e01", "e07", "e16", "e18", "e19", "e23", "e28", "e34"]   # 실패 원인 '1차 자료 묻힘' (report/evaluation.md 2부)
 VARIANTS = {"base": dict(primary_min=0)}
 for n in (1, 2):
     for m in (0.06, 0.08, 0.10):

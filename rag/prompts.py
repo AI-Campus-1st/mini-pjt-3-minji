@@ -61,7 +61,7 @@ SYSTEM_PROMPT_V1 = """너는 AI 반도체 산업 동향과 기업 전략을 조�
 [참고 문서]
 {context}"""
 
-# v2 (Day 5 실험 3): balance1 채점에서 남은 생성 실패 대응 (report/eval_answers.md 5절)
+# v2 (Day 5 실험 3): balance1 채점에서 남은 생성 실패 대응 (report/evaluation.md 2부 5절)
 # - 부분 답변을 거절 문장으로 시작 (e01 e07 e16 e25) → 항목별 판단 + 좋은 예/나쁜 예
 # - 상대 날짜 오해석 (e23) → 보도일 기준 해석 예시
 # - 아래 순위의 1차 자료를 쓰지 않음 (e16 e23) → 문서 순서와 무관하게 1차 자료 확인
@@ -102,7 +102,7 @@ SYSTEM_PROMPT_V2 = """너는 AI 반도체 산업 동향과 기업 전략을 조�
 [참고 문서]
 {context}"""
 
-# v3 (Day 5 실험 4): v2 에서 늘어난 출처 오류·날짜 오류 대응 (report/eval_answers.md 6절)
+# v3 (Day 5 실험 4): v2 에서 늘어난 출처 오류·날짜 오류 대응 (report/evaluation.md 2부 6절)
 # - 출처 사칭 (e16: 뉴스를 '사업보고서'처럼 서술) → 규칙 3 에 출처 지정 질문 처리 추가
 # - 상대 날짜 오류 (e07, e25) → 문장 예시 대신 코드가 머리줄에 기준 연도를 계산해 넣음 (format_context date_hints)
 SYSTEM_PROMPT_V3 = SYSTEM_PROMPT_V2.replace(
@@ -126,7 +126,7 @@ assert SYSTEM_PROMPT_V3 != SYSTEM_PROMPT_V2
 
 SYSTEM_PROMPTS = {"v1": SYSTEM_PROMPT_V1, "v2": SYSTEM_PROMPT_V2, "v3": SYSTEM_PROMPT_V3}
 DATE_HINT_VERSIONS = {"v3"}   # 머리줄에 [연도 기준]을 넣는 프롬프트 버전
-PROMPT_VERSION = "v3"   # 챗봇 기본 프롬프트. Day 5 실험 4 결과로 v1 → v3 (report/eval_answers.md 7절)
+PROMPT_VERSION = "v3"   # 챗봇 기본 프롬프트. Day 5 실험 4 결과로 v1 → v3 (report/evaluation.md 2부 7절)
 SYSTEM_PROMPT = SYSTEM_PROMPTS[PROMPT_VERSION]
 
 REWRITE_PROMPT = """아래 대화에 이어지는 사용자의 마지막 질문을, 이전 대화를 보지 않고도 뜻이 통하는
