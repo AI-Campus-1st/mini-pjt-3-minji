@@ -32,9 +32,10 @@ EXPERIMENTS = [
     ("chunks3", "1 문서당 청크 3개"),
     ("balance1", "2 + 1차 자료 보장"),
     ("prompt2", "3 + 프롬프트 v2 (미채택)"),
-    ("prompt3", "4 + 프롬프트 v3 (최종)"),
+    ("prompt3", "4 + 프롬프트 v3"),
+    ("kwchunk1", "5 + 문서 안 키워드 청크 (최종)"),
 ]
-FINAL_TAG = "prompt3"
+FINAL_TAG = "kwchunk1"
 GRADE_ORDER = ["정확", "부분", "오답"]
 GRADE_COLOR = {"정확": "#0ca30c", "부분": "#fab219", "오답": "#d03b3b"}          # 상태색
 DOC_TYPES = ["news", "dart", "press", "report"]

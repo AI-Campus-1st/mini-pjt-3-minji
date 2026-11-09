@@ -34,6 +34,8 @@ FETCH_K = 50        # 문서 단위로 묶기 전에 가져올 청크 수 (eval/
 HISTORY_TURNS = 3   # 생성·재작성에 넣을 최근 대화 턴 수 (토큰·비용 제한)
 PRIMARY_MIN = 1      # 1차 자료 최소 보장 수. Day 5 실험 2 balance1 결과로 0 → 1
 PRIMARY_MARGIN = 0.10  # 1위 점수보다 0.10 넘게 낮은 1차 자료는 넣지 않음 (eval/exp_balance.py)
+HYBRID = False       # 전체 하이브리드 검색(의미+BM25, RRF) 사용 여부 (실험 5 — 악화되어 미채택)
+KEYWORD_CHUNKS = 1   # 문서 안 키워드(BM25) 청크 보강 수. Day 5 실험 5 kwchunk1 결과로 0 → 1 (report/eval_answers.md 9절)
 CHUNKS_PER_DOC = 3  # 문서마다 넘길 청크 수. Day 5 실험 chunks3 결과로 1 → 3 (report/eval_answers.md)
 
 
@@ -76,7 +78,8 @@ class Prepared:
 
     @property
     def top_score(self) -> float | None:
-        return self.sources[0].score if self.sources else None
+        # 하이브리드에서는 1번 문서가 유사도 최고가 아닐 수 있으므로 최댓값을 쓴다 (기존 방식에서는 같은 값)
+        return max(s.score for s in self.sources) if self.sources else None
 
 
 def to_source(n: int, chunks: list) -> Source:
@@ -130,7 +133,8 @@ class RAGChain:
     def __init__(self, config: str = CHUNK_CONFIG, retriever: Retriever | None = None, llm=None,
                  k_docs: int = K_DOCS, min_score: float = MIN_SCORE, rewrite: bool = True,
                  chunks_per_doc: int = CHUNKS_PER_DOC, primary_min: int = PRIMARY_MIN,
-                 primary_margin: float | None = PRIMARY_MARGIN, prompt_version: str = PROMPT_VERSION):
+                 primary_margin: float | None = PRIMARY_MARGIN, prompt_version: str = PROMPT_VERSION,
+                 hybrid: bool = HYBRID, keyword_chunks: int = KEYWORD_CHUNKS):
         if llm is None:
             from langchain_openai import ChatOpenAI
             llm = ChatOpenAI(model=LLM_MODEL, temperature=0)   # 0: 같은 질문에 같은 답 (평가 재현성)
@@ -138,7 +142,8 @@ class RAGChain:
         self.k_docs, self.min_score, self.use_rewrite = k_docs, min_score, rewrite
         self.chunks_per_doc = chunks_per_doc
         self.primary_min, self.primary_margin = primary_min, primary_margin
-        self.prompt_version = prompt_version   # rag/prompts.SYSTEM_PROMPTS 의 키 (평가 기록용)
+        self.prompt_version = prompt_version
+        self.hybrid, self.keyword_chunks = hybrid, keyword_chunks   # rag/prompts.SYSTEM_PROMPTS 의 키 (평가 기록용)
         parser = StrOutputParser()
         # LCEL(LangChain Expression Language): 프롬프트 | 모델 | 파서 를 하나의 실행 단위로 연결
         self.answer_chain = (
@@ -170,12 +175,13 @@ class RAGChain:
         groups = self.retriever.search_docs_grouped(query, k_docs=self.k_docs, fetch_k=FETCH_K,
                                                     chunks_per_doc=self.chunks_per_doc,
                                                     primary_min=self.primary_min, primary_margin=self.primary_margin,
+                                                    hybrid=self.hybrid, keyword_chunks=self.keyword_chunks,
                                                     doc_types=doc_types, year_from=year_from, year_to=year_to)
         sources = [to_source(i, g) for i, g in enumerate(groups, 1)]
         status = "ok"
         if not sources:
             status = "empty"
-        elif sources[0].score < self.min_score:
+        elif max(s.score for s in sources) < self.min_score:
             status = "low_score"
         return Prepared(question=question, search_query=query, sources=sources, history=history, status=status)
 

@@ -20,6 +20,7 @@
     python eval/run_answers.py --tag balance1 --primary-min 1 --primary-margin 0.10   # 실험 2
     python eval/run_answers.py --tag prompt2 --prompt v2   # 실험 3: 프롬프트 v2
     python eval/run_answers.py --tag prompt3 --prompt v3   # 실험 4: 프롬프트 v3 (+ 연도 기준)
+    python eval/run_answers.py --tag kwchunk1 --keyword-chunks 1   # 실험 5: 문서 안 키워드 청크 보강
 중간에 멈춰도 같은 tag 로 다시 실행하면 끝난 문항은 건너뛴다.
 """
 import argparse
@@ -49,7 +50,8 @@ def out_path(tag: str) -> Path:
 
 def run(tag: str, ids: list[str] | None = None, config: str = CHUNK_CONFIG,
         chunks_per_doc: int | None = None, primary_min: int | None = None,
-        primary_margin: float | None = None, prompt: str | None = None) -> Path:
+        primary_margin: float | None = None, prompt: str | None = None, hybrid: bool | None = None,
+        keyword_chunks: int | None = None) -> Path:
     """평가 문항을 하나씩 답하고 결과를 한 줄씩 저장한다 (중단 후 이어서 실행 가능)."""
     RESULTS.mkdir(parents=True, exist_ok=True)
     path = out_path(tag)
@@ -57,10 +59,11 @@ def run(tag: str, ids: list[str] | None = None, config: str = CHUNK_CONFIG,
     items = [it for it in load_eval_set() if (not ids or it["id"] in ids) and it["id"] not in done]
     # 평가 문항은 대화 맥락이 없는 단일 질문이므로 재작성은 끈다 (불필요한 LLM 호출 방지)
     kw = {k: v for k, v in dict(chunks_per_doc=chunks_per_doc, primary_min=primary_min,
-                                primary_margin=primary_margin, prompt_version=prompt).items() if v is not None}
+                                primary_margin=primary_margin, prompt_version=prompt, hybrid=hybrid,
+                                keyword_chunks=keyword_chunks).items() if v is not None}
     rag = RAGChain(config=config, rewrite=False, **kw)
     print(f"[{tag}] 모델 {LLM_MODEL} · 설정 {config} · 문서당 청크 {rag.chunks_per_doc} · "
-          f"1차 자료 최소 {rag.primary_min}(격차 {rag.primary_margin}) · 프롬프트 {rag.prompt_version} · "
+          f"1차 자료 최소 {rag.primary_min}(격차 {rag.primary_margin}) · 프롬프트 {rag.prompt_version} · 하이브리드 {rag.hybrid} · 키워드 청크 {rag.keyword_chunks} · "
           f"실행 {len(items)}문항 (이미 완료 {len(done)})")
     with open(path, "a", encoding="utf-8") as f:
         for i, it in enumerate(items, 1):
@@ -77,7 +80,7 @@ def run(tag: str, ids: list[str] | None = None, config: str = CHUNK_CONFIG,
                 "latency_s": round(time.time() - t0, 2),
                 "model": LLM_MODEL, "config": config, "chunks_per_doc": rag.chunks_per_doc,
                 "primary_min": rag.primary_min, "primary_margin": rag.primary_margin,
-                "prompt_version": rag.prompt_version, "run_at": datetime.now().isoformat(timespec="seconds"),
+                "prompt_version": rag.prompt_version, "hybrid": rag.hybrid, "keyword_chunks": rag.keyword_chunks, "run_at": datetime.now().isoformat(timespec="seconds"),
             }
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
             f.flush()   # 중간에 멈춰도 여기까지는 저장
@@ -117,8 +120,10 @@ if __name__ == "__main__":
     ap.add_argument("--primary-min", type=int, help="1차 자료 최소 보장 수 (기본: rag/chain.PRIMARY_MIN)")
     ap.add_argument("--primary-margin", type=float, help="1위 점수 대비 허용 격차 (기본: rag/chain.PRIMARY_MARGIN)")
     ap.add_argument("--prompt", choices=["v1", "v2", "v3"], help="시스템 프롬프트 버전 (기본: rag/prompts.PROMPT_VERSION)")
+    ap.add_argument("--hybrid", action="store_true", default=None, help="하이브리드 검색(의미+BM25) 사용")
+    ap.add_argument("--keyword-chunks", type=int, help="문서 안 키워드(BM25) 청크 보강 수")
     ap.add_argument("--summary", action="store_true", help="실행 없이 저장된 결과 요약만")
     args = ap.parse_args()
     if not args.summary:
-        run(args.tag, args.ids, args.config, args.chunks_per_doc, args.primary_min, args.primary_margin, args.prompt)
+        run(args.tag, args.ids, args.config, args.chunks_per_doc, args.primary_min, args.primary_margin, args.prompt, args.hybrid, args.keyword_chunks)
     summarize(args.tag)

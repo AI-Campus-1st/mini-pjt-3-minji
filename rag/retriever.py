@@ -15,6 +15,7 @@
 """
 import json
 import os
+import sqlite3
 from dataclasses import asdict, dataclass
 
 import chromadb
@@ -65,6 +66,57 @@ class QueryEmbedder:
         return self.cache[key]
 
 
+class KeywordIndex:
+    """BM25 키워드 검색 (store/keyword_{config}.db, indexer/keyword.py 가 만든 FTS5 색인). 조회 전용.
+
+    질문을 색인과 같은 방식으로 토큰화(한글 바이그램 + 영문·숫자 단어)하고, 토큰을 OR 로 묶어
+    BM25 점수 순으로 청크 id 를 돌려준다. 색인이 없으면 available=False (하이브리드 검색을 쓸 수 없음).
+    """
+
+    # 질문에 공통으로 붙는 말 → 어느 문서에나 있어 검색을 흐린다 (질문 쪽에서만 제외)
+    QUESTION_WORDS = ["무엇인가", "어떻게", "어떤", "얼마인가", "얼마나", "얼마", "각각", "어디", "언제", "몇", "인가",
+                      "하는가", "했는가", "되는가", "되었나", "됐나", "있는가", "이며", "에서", "따르면", "대해"]
+
+    def __init__(self, config: str = "B"):
+        from indexer.keyword import keyword_db, tokenize   # 같은 토큰화 함수 (색인·검색 일치 보장)
+        self._tokenize = tokenize
+        self.config = config
+        self._stop = {t for w in self.QUESTION_WORDS for t in tokenize(w)}
+        path = keyword_db(config)
+        self.available = path.exists()
+        self.conn = sqlite3.connect(f"file:{path}?mode=ro", uri=True, check_same_thread=False) if self.available else None
+
+    def _match(self, query: str) -> str | None:
+        """질문 → FTS5 MATCH 식 (토큰 OR). 공통 질문어 제외, 남는 토큰이 없으면 None."""
+        toks = [t for t in dict.fromkeys(self._tokenize(query)) if t not in self._stop]
+        return " OR ".join(f'"{t}"' for t in toks) if toks else None
+
+    def search_in_doc(self, query: str, doc_id: str, k: int = 3) -> list[str]:
+        """한 문서 안에서 BM25 상위 k개 청크 id. 긴 공시·보도자료에서 답이 든 표 청크를 찾는 데 쓴다."""
+        m = self._match(query) if self.available else None
+        if not m:
+            return []
+        return [r[0] for r in self.conn.execute(
+            "SELECT chunk_id FROM fts WHERE fts MATCH ? AND chunk_id LIKE ? ORDER BY bm25(fts) LIMIT ?",
+            (m, f"{self.config}:{doc_id}:%", k))]
+
+    def search(self, query: str, k: int = 50, doc_types=None, year_from=None, year_to=None) -> list[str]:
+        """BM25 상위 k개 청크 id (좋은 순)."""
+        m = self._match(query) if self.available else None
+        if not m:
+            return []
+        sql = "SELECT chunk_id FROM fts WHERE fts MATCH ?"
+        args: list = [m]
+        if doc_types:
+            sql += f" AND doc_type IN ({','.join('?' * len(doc_types))})"; args += list(doc_types)
+        if year_from is not None:
+            sql += " AND year >= ?"; args.append(int(year_from))
+        if year_to is not None:
+            sql += " AND year <= ?"; args.append(int(year_to))
+        sql += " ORDER BY bm25(fts) LIMIT ?"; args.append(k)   # bm25() 는 작을수록 관련도 높음
+        return [r[0] for r in self.conn.execute(sql, args)]
+
+
 def build_where(doc_types: list[str] | None = None, year_from: int | None = None,
                 year_to: int | None = None) -> dict | None:
     """필터 조건 → Chroma where 절. 조건이 없으면 None."""
@@ -97,6 +149,66 @@ class Retriever:
             raise RuntimeError(f"인덱스 모델({model})과 질문 임베딩 모델({EMBED_MODEL})이 다릅니다.")
         self.embed = embed_fn or QueryEmbedder()
 
+    @property
+    def keyword(self) -> KeywordIndex:
+        """키워드 색인은 하이브리드 검색을 처음 쓸 때 연다."""
+        if not hasattr(self, "_keyword"):
+            self._keyword = KeywordIndex(self.config)
+        return self._keyword
+
+    def search_hybrid(self, query: str, k: int = 50, rrf_k: int = 60, **filters) -> list[Hit]:
+        """의미 검색 상위 k + BM25 상위 k 를 RRF(순위 역수 합산)로 합친 청크 목록 (좋은 순).
+
+        RRF 점수 = Σ 1 / (rrf_k + 순위). 점수 단위가 다른 두 검색을 순위만으로 공정하게 섞는다.
+        Hit.score 는 계속 '질문과의 코사인 유사도'로 둔다 (거절 판단·화면 표시가 같은 의미를 갖도록).
+        키워드로만 찾은 청크는 Chroma 에서 저장된 벡터를 꺼내 유사도를 계산한다.
+        """
+        qv = self.embed(query)
+        dense = self.search(query, k=k, **filters)
+        kw_ids = self.keyword.search(query, k=k, **filters)
+        fused: dict[str, float] = {}
+        for rank, h in enumerate(dense, 1):
+            fused[h.chunk_id] = fused.get(h.chunk_id, 0) + 1 / (rrf_k + rank)
+        for rank, cid in enumerate(kw_ids, 1):
+            fused[cid] = fused.get(cid, 0) + 1 / (rrf_k + rank)
+        hits = {h.chunk_id: h for h in dense}
+        hits.update(self._hits_by_ids([c for c in kw_ids if c not in hits], qv))
+        return [hits[cid] for cid in sorted(fused, key=lambda c: -fused[c]) if cid in hits]
+
+    def _hits_by_ids(self, ids: list[str], qv) -> dict[str, Hit]:
+        """청크 id → Hit. Chroma 에 저장된 벡터로 질문과의 코사인 유사도를 계산한다 (키워드로 찾은 청크용)."""
+        if not ids:
+            return {}
+        import numpy as np
+        got = self.col.get(ids=ids, include=["metadatas", "documents", "embeddings"])
+        q = np.asarray(qv, dtype=float); q /= np.linalg.norm(q)
+        out = {}
+        for cid, meta, doc, emb in zip(got["ids"], got["metadatas"], got["documents"], got["embeddings"]):
+            e = np.asarray(emb, dtype=float)
+            out[cid] = Hit(chunk_id=cid, doc_id=meta["doc_id"], doc_type=meta["doc_type"],
+                           source=meta.get("source", ""), title=meta.get("title", ""), url=meta.get("url", ""),
+                           published_at=meta.get("published_at", ""), section=meta.get("section"),
+                           page=meta.get("page"), text=doc, score=round(float(q @ (e / np.linalg.norm(e))), 4))
+        return out
+
+    def add_keyword_chunks(self, query: str, groups: list[list[Hit]], n: int, cap: int) -> list[list[Hit]]:
+        """문서 안 키워드 청크 보강: 고른 문서마다 BM25 상위 n개 청크를 넣는다 (문서 선택은 그대로).
+
+        한 문서의 청크 순서 = [의미 검색 1위, 키워드 청크들, 나머지 의미 검색 청크] 를 cap 개까지.
+        의미 검색 1위 청크는 항상 남겨 기존 근거를 잃지 않게 한다.
+        """
+        if n <= 0 or not self.keyword.available:
+            return groups
+        qv = self.embed(query)
+        out = []
+        for g in groups:
+            have = {h.chunk_id for h in g}
+            kw = [c for c in self.keyword.search_in_doc(query, g[0].doc_id, k=n + len(g)) if c not in have][:n]
+            kw_hits = self._hits_by_ids(kw, qv)
+            merged = [g[0]] + [kw_hits[c] for c in kw if c in kw_hits] + g[1:]
+            out.append(merged[:cap])
+        return out
+
     def search(self, query: str, k: int = 5, doc_types=None, year_from=None, year_to=None) -> list[Hit]:
         """질문과 가까운 청크 k개 (유사도 높은 순)."""
         res = self.col.query(query_embeddings=[self.embed(query)], n_results=k,
@@ -123,7 +235,8 @@ class Retriever:
         return list(groups.values())   # dict 는 넣은 순서 유지 → 문서 1위 점수 순
 
     def search_docs_grouped(self, query: str, k_docs: int = 5, fetch_k: int = 50, chunks_per_doc: int = 1,
-                            primary_min: int = 0, primary_margin: float | None = None,
+                            primary_min: int = 0, primary_margin: float | None = None, hybrid: bool = False,
+                            keyword_chunks: int = 0,
                             doc_types=None, year_from=None, year_to=None) -> list[list[Hit]]:
         """문서 단위 결과 + 문서마다 청크 여러 개: [[문서1 청크들], [문서2 청크들], ...].
 
@@ -134,19 +247,29 @@ class Retriever:
            - 1차 자료만 따로 검색해, 부족한 수만큼 가장 아래 순위의 뉴스와 바꾼다.
            - primary_margin: 1위 문서 점수보다 이만큼 이상 낮은 1차 자료는 넣지 않는다
              (질문과 무관한 1차 자료가 뉴스 자리를 뺏지 않게). None 이면 제한 없음.
+        3) hybrid=True 이면 1)·2)의 검색을 의미+키워드 하이브리드(search_hybrid)로 한다 (심화 확장 실험).
+           이때 문서 순서는 RRF 순위를 따르고, 점수 순 재정렬은 하지 않는다.
+        4) keyword_chunks > 0 이면 고른 문서마다 문서 안 BM25 청크를 그 수만큼 보강한다 (add_keyword_chunks).
         호출 위치: rag/chain.RAGChain.prepare
         """
         filters = dict(year_from=year_from, year_to=year_to)
-        groups = self._group(self.search(query, k=fetch_k, doc_types=doc_types, **filters), k_docs, chunks_per_doc)
-        if primary_min <= 0 or not groups:
-            return groups
+        find = self.search_hybrid if hybrid else self.search
+        groups = self._group(find(query, k=fetch_k, doc_types=doc_types, **filters), k_docs, chunks_per_doc)
+        if primary_min > 0 and groups:
+            groups = self._ensure_primary(query, groups, find, fetch_k, k_docs, chunks_per_doc,
+                                          primary_min, primary_margin, hybrid, doc_types, filters)
+        return self.add_keyword_chunks(query, groups, keyword_chunks, chunks_per_doc)
+
+    def _ensure_primary(self, query, groups, find, fetch_k, k_docs, chunks_per_doc,
+                        primary_min, primary_margin, hybrid, doc_types, filters) -> list[list[Hit]]:
+        """1차 자료 최소 primary_min 개 보장 (실험 2). 부족하면 가장 아래 순위 뉴스와 바꾼다."""
         allowed = [t for t in (doc_types or PRIMARY_DOC_TYPES) if t in PRIMARY_DOC_TYPES]
         have = sum(g[0].doc_type in PRIMARY_DOC_TYPES for g in groups)
         if not allowed or have >= primary_min:
             return groups                      # 이미 충분하거나, 필터로 1차 자료를 제외한 경우
-        top = groups[0][0].score
+        top = max(g[0].score for g in groups)   # 하이브리드에서는 1위 문서가 유사도 최고가 아닐 수 있음
         ids = {g[0].doc_id for g in groups}
-        cands = [g for g in self._group(self.search(query, k=fetch_k, doc_types=allowed, **filters),
+        cands = [g for g in self._group(find(query, k=fetch_k, doc_types=allowed, **filters),
                                         k_docs, chunks_per_doc)
                  if g[0].doc_id not in ids and (primary_margin is None or g[0].score >= top - primary_margin)]
         for g in cands[:primary_min - have]:
@@ -154,6 +277,8 @@ class Retriever:
             if len(groups) >= k_docs and news_idx:
                 groups.pop(news_idx[-1])       # 가장 아래 순위 뉴스를 뺀다
             groups.append(g)
+        if hybrid:
+            return groups                      # RRF 순위 유지 (보장으로 추가된 1차 자료는 뒤에)
         return sorted(groups, key=lambda g: -g[0].score)   # 번호 [n] 이 점수 순이 되도록
 
     def search_docs(self, query: str, k_docs: int = 5, fetch_k: int = 50, **filters) -> list[Hit]:
