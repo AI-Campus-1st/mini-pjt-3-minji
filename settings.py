@@ -28,6 +28,11 @@ PRIMARY_DOC_TYPES = ("dart", "press", "report")
 CHUNK_CONFIG = "B"        # 챗봇이 쓰는 청킹 설정 (Day 3 측정에서 Hit@3 우세, report/eval_baseline.md)
 
 
+def keyword_db(config: str) -> Path:
+    """설정(A/B)별 키워드(BM25) 색인 파일. 인덱서가 쓰고 검색기가 읽는다."""
+    return ROOT / "store" / f"keyword_{config}.db"
+
+
 def collection_name(config: str) -> str:
     """청킹 설정(A/B)별 Chroma 컬렉션 이름."""
     return f"chunks_{config}"

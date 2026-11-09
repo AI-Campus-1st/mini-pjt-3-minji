@@ -5,7 +5,7 @@
     들어 있는 표 청크는 순위가 낮아 놓친다 (e09·e14·e26·e33, report/eval_answers.md).
     BM25 는 질문 단어가 청크에 몇 번, 얼마나 드물게 나오는지로 점수를 매겨 이런 청크를 끌어올린다.
 
-토큰화
+토큰화 (tokenizer.py — 검색기와 공용)
     한국어는 "한미반도체의"처럼 조사가 붙어 띄어쓰기 단위로는 단어가 맞지 않는다.
     형태소 분석기(새 의존성) 대신, 한글 연속 구간은 글자 2개씩 자른 바이그램으로,
     영문·숫자는 단어 그대로(소문자, 소수점 숫자는 84.6 → 84d6) 쓴다.
@@ -19,31 +19,13 @@
 실행 (프로젝트 루트) — 중단돼도 다시 실행하면 이어서 만든다
     python -m indexer --only keyword --config B
 """
-import re
 import sqlite3
 import time
 
-from settings import DOCS_DB, ROOT
+from settings import DOCS_DB, ROOT, keyword_db
+from tokenizer import tokenize   # 검색기와 같은 토큰화 (공용 모듈)
 
-HANGUL_RUN = re.compile(r"[가-힣]+")
-TOKEN = re.compile(r"[가-힣]+|[0-9]+(?:\.[0-9]+)?|[a-z0-9]+")
 BATCH = 5000
-
-
-def keyword_db(config: str):
-    return ROOT / "store" / f"keyword_{config}.db"
-
-
-def tokenize(text: str) -> list[str]:
-    """한글 구간은 글자 바이그램(1글자면 그대로), 영문·숫자는 단어 그대로. 검색 질문에도 같은 함수를 쓴다."""
-    out = []
-    for t in TOKEN.findall(text.lower()):
-        if HANGUL_RUN.fullmatch(t):
-            out.extend([t] if len(t) == 1 else [t[i:i + 2] for i in range(len(t) - 1)])
-        else:
-            # FTS5 는 '.' 을 구분자로 보므로 소수점 숫자는 84.6 → 84d6 으로 한 토큰 유지
-            out.append(t.replace(".", "d"))
-    return out
 
 
 def run(config: str = "B", rebuild: bool = False) -> dict:

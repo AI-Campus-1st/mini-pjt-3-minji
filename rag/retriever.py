@@ -21,7 +21,8 @@ from dataclasses import asdict, dataclass
 import chromadb
 from dotenv import load_dotenv
 
-from settings import CHROMA_DIR, EMBED_MODEL, PRIMARY_DOC_TYPES, ROOT, collection_name
+from settings import CHROMA_DIR, EMBED_MODEL, PRIMARY_DOC_TYPES, ROOT, collection_name, keyword_db
+from tokenizer import tokenize
 
 QUERY_CACHE = ROOT / "data" / "cache" / "query_embeddings.json"   # 같은 질문은 다시 임베딩하지 않음
 
@@ -78,8 +79,7 @@ class KeywordIndex:
                       "하는가", "했는가", "되는가", "되었나", "됐나", "있는가", "이며", "에서", "따르면", "대해"]
 
     def __init__(self, config: str = "B"):
-        from indexer.keyword import keyword_db, tokenize   # 같은 토큰화 함수 (색인·검색 일치 보장)
-        self._tokenize = tokenize
+        self._tokenize = tokenize   # 색인과 같은 토큰화 (공용 모듈 tokenizer.py — 인덱서 코드에 의존하지 않음)
         self.config = config
         self._stop = {t for w in self.QUESTION_WORDS for t in tokenize(w)}
         path = keyword_db(config)
