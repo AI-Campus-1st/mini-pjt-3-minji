@@ -54,5 +54,5 @@
 
 ## 제출 전 남은 일
 1. ~~답변 채점 검토~~ 완료 (2026-11-09)
-2. README 스크린샷: 챗봇·대시보드 화면을 `report/images/` 에 캡처 (개인 탭이 보이지 않게)
+2. ~~README 스크린샷~~ 완료 (`report/chat.png`, `report/dashboard.png`)
 3. `git push`
