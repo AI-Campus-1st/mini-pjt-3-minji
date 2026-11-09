@@ -70,6 +70,26 @@ def load_retrieval(tag: str) -> dict:
     return out
 
 
+@st.cache_data(ttl=60)
+def retrieval_experiments() -> pd.DataFrame:
+    """검색 단계 실험 비교 (eval/exp_balance.py, eval/exp_hybrid.py 결과). 모델에 넘기는 문서 6개 기준."""
+    rows = []
+    sources = [("exp_balance.json", "base", "의미 검색 (baseline)"),
+               ("exp_balance.json", "min1_m0.10", "+ 1차 자료 최소 1개 (채택)"),
+               ("exp_balance.json", "fixed3", "+ 1차 자료 고정 3개"),
+               ("exp_hybrid.json", "rrf", "전체 하이브리드 RRF (미채택)"),
+               ("exp_hybrid.json", "kw1", "+ 문서 안 키워드 청크 (최종)")]
+    for fname, key, label in sources:
+        p = RESULTS / fname
+        if not p.exists():
+            continue
+        r = json.load(open(p, encoding="utf-8")).get(key)
+        if r:
+            rows += [{"설정": label, "지표": m, "값": r[k]}
+                     for k, m in [("hit@1", "Hit@1"), ("hit@3", "Hit@3"), ("hit@6", "Hit@6"), ("mrr@6", "MRR@6")]]
+    return pd.DataFrame(rows)
+
+
 @st.cache_data(ttl=600)
 def load_kb() -> tuple[pd.DataFrame, pd.DataFrame]:
     """지식베이스 구성: (문서 종류·연도별 대표 문서 수, 문서 종류별 청크 수 — 설정 B)."""
@@ -207,6 +227,50 @@ def chart_kb(docs: pd.DataFrame) -> go.Figure:
     return style(fig, 260)
 
 
+SERIES5 = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4"]   # 범주형 고정 순서 앞 5칸 (검증 팔레트)
+
+
+def chart_retrieval_experiments(df: pd.DataFrame) -> go.Figure:
+    """검색 실험별 Hit@1·3·6·MRR (가이드 4-8 '실험 설정별 막대 비교')."""
+    order = list(dict.fromkeys(df["설정"]))
+    fig = px.bar(df, x="지표", y="값", color="설정", barmode="group", text="값",
+                 color_discrete_sequence=SERIES5, category_orders={"설정": order})
+    fig.update_traces(texttemplate="%{y:.2f}", textposition="outside", cliponaxis=False, textfont_size=10,
+                      hovertemplate="%{fullData.name} · %{x}: %{y:.3f}<extra></extra>")
+    fig.update_yaxes(range=[0, 1.1], title=None)
+    fig.update_xaxes(title=None)
+    fig = style(fig, 360)
+    fig.update_layout(legend=dict(orientation="h", y=1.12))
+    return fig
+
+
+def chart_scores_by_grade(answers: list[dict], grades: list[dict]) -> go.Figure:
+    """정답·오답 사례별 1위 유사도 (가이드 4-8 '정답 사례와 오답 사례의 점수 분포', 최종 설정)."""
+    gmap = {g["id"]: g["grade"] for g in grades}
+    df = pd.DataFrame([{"판정": gmap.get(a["id"], "?"), "1위 유사도": max(x["score"] for x in a["sources"]),
+                        "문항": a["id"]} for a in answers if a["sources"]])
+    order = ["정확", "부분", "오답", "거절 성공"]
+    colors = {**GRADE_COLOR, "거절 성공": "#2a78d6"}
+    fig = px.strip(df, x="1위 유사도", y="판정", color="판정", hover_data=["문항"],
+                   category_orders={"판정": order}, color_discrete_map=colors)
+    fig.update_traces(marker_size=10, marker_line_width=2, marker_line_color="rgba(255,255,255,0.9)")
+    fig.add_vline(x=MIN_SCORE, line_dash="dash", line_color="gray",
+                  annotation_text=f"거절 하한 {MIN_SCORE}", annotation_position="top")
+    fig.update_yaxes(title=None)
+    fig.update_layout(showlegend=False)
+    return style(fig, 260)
+
+
+def chart_latency(tags: list[tuple[str, str]]) -> go.Figure:
+    """실험별 응답 시간 분포 (가이드 4-8 '응답시간 분포' — 심화 확장 전후 비교)."""
+    rows = [{"실험": label, "응답 시간(초)": a["latency_s"], "문항": a["id"]}
+            for tag, label in tags for a in load_answers(tag)]
+    fig = px.box(pd.DataFrame(rows), x="응답 시간(초)", y="실험", points="all", hover_data=["문항"])
+    fig.update_traces(marker_color="#2a78d6", line_color="#2a78d6", marker_size=6)
+    fig.update_yaxes(autorange="reversed", title=None)
+    return style(fig, 320)
+
+
 # ---------------------------------------------------------------------------
 # 페이지
 # ---------------------------------------------------------------------------
@@ -237,6 +301,9 @@ def render() -> None:
         st.plotly_chart(chart_experiments(exp), use_container_width=True)
         with st.expander("표로 보기"):
             st.dataframe(exp, hide_index=True, use_container_width=True)
+        st.markdown("**응답 시간 분포 — 실험별**")
+        st.plotly_chart(chart_latency([(t, l) for t, l in EXPERIMENTS if load_answers(t)]), use_container_width=True)
+        st.caption("하이브리드(문서 안 키워드 청크) 적용 후 평균 3.35초 → 5.78초: 키워드 검색 0.5초 + 문맥이 길어져 생성 시간 증가.")
 
     # 3) 최종 설정 세부
     if final_ans and final_grades:
@@ -249,8 +316,19 @@ def render() -> None:
             st.plotly_chart(chart_layers(final_grades), use_container_width=True)
             with st.expander("문항별 판정 보기"):
                 st.dataframe(pd.DataFrame(final_grades), hide_index=True, use_container_width=True)
+        st.markdown("**정답·오답 사례별 1위 문서 유사도 (최종)**")
+        st.plotly_chart(chart_scores_by_grade(final_ans, final_grades), use_container_width=True)
+        st.caption("정확·오답·거절 사례의 유사도가 겹친다 → 유사도 임계값만으로는 오답을 걸러낼 수 없어, 하한은 명백히 무관한 경우만 거르고 나머지는 프롬프트가 판단한다.")
 
     # 4) 검색 성능
+    rx = retrieval_experiments()
+    if not rx.empty:
+        st.subheader("검색 성능 — 개선 실험별 (설정 B, 문서 6개 기준)")
+        st.plotly_chart(chart_retrieval_experiments(rx), use_container_width=True)
+        st.caption("1차 자료 보장으로 Hit@6 0.824 → 0.971. 전체 하이브리드(RRF)는 뉴스 잡음으로 0.765 로 떨어져 미채택. "
+                   "문서 안 키워드 청크는 문서 선택을 바꾸지 않아 지표는 같고, 답 청크 전달이 늘었다(답변 품질로 확인).")
+        with st.expander("표로 보기"):
+            st.dataframe(rx.pivot_table(index="설정", columns="지표", values="값", sort=False), use_container_width=True)
     st.subheader("검색 성능 — 청킹 설정 A vs B")
     tags = {"정답 라벨 보완 후 (gold_v2)": "gold_v2", "1차 측정 (baseline)": "baseline"}
     pick = st.radio("측정", list(tags), horizontal=True, label_visibility="collapsed")
